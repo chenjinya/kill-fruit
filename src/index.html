@@ -1,16 +1,214 @@
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="stylesheet" type="text/css" href="./style/app.less">
-  <title>Gulp ES6 AutoPrefix</title>
+	<link rel="stylesheet" type="text/css" href="./style/app.css">
+	<title>Gulp ES6 AutoPrefix</title>
+
 </head>
 <body>
-  Hi
-<script type="text/javascript" src="./javascript/app.js"></script>
+	<div class="stage" >
+		<div class="navbar clearfix" >
+			<button class='ret-btn'></button>
+			<h1 class="navbar-title">水果忍者</h1>
+		</div>
+		<div class="history-section clearfix" >
+			<div class="history-body" >
+				<button class="history-list-left-btn"></button>
+				<ul class="history-list">
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/watermelon-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/apple-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/grap-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/watermelon-x.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/watermelon-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/apple-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/grap-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/watermelon-x.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/grap-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/grap-l.png" />
+					</li>
+					<li class="history-list-item" >
+						<img class="history-list-img" src="./image/fruit/grap-l.png" />
+					</li>
+				</ul>
+				<button class="history-list-right-btn"></button>
+			</div>
+			<div class="sound-section" >
+				<button class="sound-btn"></button>
+			</div>
+		</div>
+		<div class="banker-section" >
+			<div class="banker-info" >
+				<div class="banker-title" >水果大挑战</div>
+				<div class="banker-status" >
+					<div>历练值不值50</div>
+					<div>历练值不值50</div>
+					<button class="banker-up-btn">上庄挑战</button>
+				</div>
+			</div>
+			<div class="banker-list" >
+				<div class="banker-list-title" >当前庄家</div>
+				<div class="banker-list-head" >
+					<div class="banker-list-rank">排序</div>
+					<div class="banker-list-name">昵称</div>
+					<div class="banker-list-value">历练值</div>
+				</div>
+				<div class="banker-list-main" >
+					<ul>
+						<li>
+							<div class="banker-list-rank">排序</div>
+							<div class="banker-list-name">昵称</div>
+							<div class="banker-list-value">历练值</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="table-section">
+			<div class="table-section-top" >
+				<div class="fruit-item" >
+					<img  class="fruit-item-img"  src="">
+				</div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+			</div>
+			<div class="table-section-middle" >
+				<div class="table-section-left" >
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+				</div>
+				<div class="table-section-center" >
+					<div class="table-time" >切水果时间:19</div>
+					<div class="table-info" >
+						<div class="table-user-info-" >
+						</div>
+						<div class="table-exchange" >
+							<button class="exchange-coin"></button>
+						</div>
+					</div>
+					<div class="table-stage" >
+						<div class="table-stage-item">
+							<img class="table-stage-item-icon" src="">
+							<div class="table-stage-item-times" >x <span>40</span></div>
+							<div class="table-stage-item-num" >1000</div>
+							<div class="table-stage-item-tip" >点击切水果</div>
+						</div>
+						<div class="table-stage-item">
+							<img class="table-stage-item-icon" src="">
+							<div class="table-stage-item-times" >x <span>40</span></div>
+							<div class="table-stage-item-num" >1000</div>
+							<div class="table-stage-item-tip" >点击切水果</div>
+						</div>
+						<div class="table-stage-item">
+							<img class="table-stage-item-icon" src="">
+							<div class="table-stage-item-times" >x <span>40</span></div>
+							<div class="table-stage-item-num" >1000</div>
+							<div class="table-stage-item-tip" >点击切水果</div>
+						</div>
+						<div class="table-stage-item">
+							<img class="table-stage-item-icon" src="">
+							<div class="table-stage-item-times" >x <span>40</span></div>
+							<div class="table-stage-item-num" >1000</div>
+							<div class="table-stage-item-tip" >点击切水果</div>
+						</div>
+					</div>
+				</div>
+				<div class="table-section-right" >
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+					<div class="fruit-item" ></div>
+				</div>
+				
+			</div>
+			<div class="table-section-bottom" >
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+				<div class="fruit-item" ></div>
+			</div>
+			
+		</div>
+
+		<div class="handle-section" >
+			<div class="repeat-action">
+				<button class="repeat-action-btn" ></div>
+			</div>
+
+			<div class="knife-section">
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+				<div class="knife-item" >
+					<img class="knife-item-img" />
+					<img class="check-icon" />
+					<div class="knife-item-price">500</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript" src="./javascript/vendor/zepto.js"></script>
+	<script type="text/javascript" src="./javascript/vendor/zepto.fx.js"></script>
+	<script type="text/javascript" src="./javascript/vendor/zepto.touch.js"></script>
+	<script type="text/javascript" src="./javascript/vendor/zepto.detect.js"></script>
+	<script type="text/javascript" src="./javascript/vendor/vue.js"></script>
+
+	<script type="text/javascript" src="./javascript/app.js"></script>
 
 </body>
 </html>
