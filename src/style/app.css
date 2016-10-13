@@ -5,10 +5,13 @@
   text-overflow: ellipsis; }
 
 body {
+  overflow: hidden;
   padding: 0;
   margin: 0;
   font-size: 12px;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background: url(../image/background.png) top left;
+  background-size: contain; }
 
 div {
   box-sizing: border-box; }
@@ -32,7 +35,7 @@ ul, li {
 
 .stage {
   width: 720px;
-  height: 1280px;
+  height: 1120px;
   overflow: hidden;
   margin: 0 auto;
   background: url("../image/background.png") no-repeat center;
@@ -41,8 +44,6 @@ ul, li {
           transform: translateY(0);
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0; }
-  .stage-history {
-    width: 90%; }
 
 .navbar {
   width: 100%;

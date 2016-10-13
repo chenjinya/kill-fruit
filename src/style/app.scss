@@ -14,12 +14,13 @@ $width: 640px;
 }
 
 body{
- 	//overflow: hidden;
+ 	overflow: hidden;
  	padding: 0;
  	margin: 0;
  	font-size: 12px;
  	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-
+ 	background: url(../image/background.png) top left;
+ 	background-size: contain;
  }
 div {
     box-sizing: border-box;
@@ -48,15 +49,13 @@ ul,li{
 
 .stage{
     width: 720px;
-    height: 1280px;
+    height: 1120px;
     overflow: hidden;
     margin: 0 auto;
     @include backgroundContain('../image/background.png');
     transform: translateY(0);
     transform-origin: 0 0;
-    &-history {
-        width:90%;
-    }
+
 
 }
 .navbar{
