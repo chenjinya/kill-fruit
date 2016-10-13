@@ -1,13 +1,24 @@
 $height: 1280px;
 $width: 640px;
 
+.textOverflow {
+	white-space: nowrap;
+	overflow: hidden;     
+	text-overflow: ellipsis;
+}
 
+@mixin backgroundContain($url){
+	background: url($url) no-repeat center;
+    background-size: contain;
+
+}
 
 body{
- 	overflow: hidden;
+ 	//overflow: hidden;
  	padding: 0;
  	margin: 0;
  	font-size: 12px;
+ 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 
  }
 div {
@@ -22,6 +33,8 @@ ul,li{
 	margin: 0;
 	padding: 0;
 }
+
+
 
 .clearfix:after {
   content: " ";
@@ -38,8 +51,7 @@ ul,li{
     height: 1280px;
     overflow: hidden;
     margin: 0 auto;
-    background: url(../image/background.png);
-    background-size: contain;
+    @include backgroundContain('../image/background.png');
     transform: translateY(0);
     transform-origin: 0 0;
     &-history {
@@ -62,8 +74,7 @@ ul,li{
 		width: 32px;
 		height: 32px;
 		
-		background:  url(../image/ret-btn.png);
-		background-size: cover;
+		@include backgroundContain('../image/ret-btn.png');
 
 	}
 	.navbar-title{
@@ -93,13 +104,12 @@ ul,li{
 	.sound-section{
 		float: right;
 		.sound-btn{
-			background: url(../image/sound-btn.png);
-			background-size: cover;
+			@include backgroundContain('../image/sound-btn.png')
 			width: 58px;
 			height: 58px;
 		}
 		.sound-close-btn{
-			background: url(../image/sound-close-btn.png);
+			background-image: url(../image/sound-close-btn.png);
 		}
 	}
 	.history-list{
@@ -121,8 +131,7 @@ ul,li{
 		}
 
 		&-left-btn{
-			background: url(../image/history-left-btn.png) no-repeat center;
-			background-size: contain;
+			@include backgroundContain('../image/history-left-btn.png');
 			width:40px;
 			height:40px;
 			margin: 0px;
@@ -133,8 +142,7 @@ ul,li{
 		}
 
 		&-right-btn{
-			background: url(../image/history-right-btn.png) no-repeat center;
-			background-size: contain;
+			@include backgroundContain('../image/history-right-btn.png')
 			width:40px;
 			height:40px;
 			margin: 0px;
@@ -142,6 +150,318 @@ ul,li{
 			position: absolute;
 			right: 10px;
 			top: 9px;
+		}
+	}
+}
+.banker-section{
+	width: 690px;
+	margin: 0 auto;
+	height: 88px;
+	margin-top: 17px;
+	background: #ab5d30;
+	@include backgroundContain('../image/banker-bg.png');
+	.banker-info{
+		width: 345px;
+		float: left;
+	}
+	.banker-title{
+		width: 150px;
+		height: 88px;
+		float: left;
+		margin-left: 30px;
+		@include backgroundContain('../image/banker-text.png');
+	}
+
+	.banker-status{
+		width: 100px;
+		float: left;
+		margin-left: 30px;
+		margin-top: 4px;
+		font-size:14px;
+		color: #FFF;
+		&-1{
+			text-align: center;
+		}
+		&-2{
+			text-align: center;
+		}
+		.banker-up-btn{
+			color: #000;
+			margin-top: 10px;
+			width: 96px;
+			height: 26px;
+			@include backgroundContain('../image/banker-up-btn.png');
+		}
+	}
+	
+	.banker-list{
+		width: 345px;
+		float: right;
+		&-title{
+			width:18px;
+			font-size: 16px;
+			color: #FFF;
+			float: left;
+			line-height: 18px;
+			
+			
+		}
+		&-slide{
+			border-left: 1px solid #FFF;
+			height: 39px;
+			margin: 26px 7px 0 7px;
+			float: left;
+			width: 4px;
+
+		}
+		
+		&-body{
+			width:300px;
+			font-size: 16px;
+			color: #FFF;
+			float: left;
+		}
+		
+		&-head{
+			color: #000;
+		}
+		&-item{
+			display: inline-block;
+			
+		}
+		&-rank{
+			width: 32px;
+			text-align: center;
+			@extend .textOverflow
+		}
+		&-name{
+			width: 114px;
+			margin-left:16px;
+			text-align: center;
+			@extend .textOverflow
+		}
+		&-value{
+			width: 84px;
+			text-align: center;
+			margin-left: 10px;
+			@extend .textOverflow
+		}
+
+		&-main{
+			li {
+				display: block;
+				white-space: nowrap;
+			}
+		}
+
+	}
+	
+	
+	
+}
+.table-section{
+	width: 690px;
+	height: 810px;
+	margin: 0 auto;
+	@include backgroundContain('../image/table-bg.png');
+
+
+	.fruit-item{
+		width: 100px;
+	    height: 100px;
+	    margin: 14px 0 0 13px;
+	    display: block;
+	    position: relative;
+	    @include backgroundContain('../image/fruit-bg.png');
+	    float: left;
+	    text-align: center;
+	    vertical-align: middle;
+	    &-img{
+	    	max-width: 80px;
+	    	max-height: 80px;
+	    	
+	    	border: 0;
+	    	position: absolute;
+	    	top: 0;
+	    	left: 0;
+	    	right: 0;
+	    	bottom: 0;
+	    	margin: auto;
+	    	//@include backgroundContain('../image/fruit/watermelon-l.png');
+	    }
+
+	}
+
+
+
+	&-top{
+
+	}
+	&-middle{
+
+	}
+
+	&-left{
+		width: 126px;
+		float: left;
+	}
+	&-right{
+		float: right;
+		width: 126px;
+	}
+
+	&-bottom{
+
+	}
+
+	&-center{
+		width: 438px;
+	    float: left;
+	    height: 556px;
+	    margin-top: 14px;
+
+	    .table-time{
+	    	font-size: 34px;
+	    	color: #FFF;
+	    	text-align: center;
+	    	margin-top:30px;
+	    	margin-bottom: 20px;
+	    }
+	    .table-info{
+	    	.table-user-info{
+	    		float: left;
+	    		margin-left: 12px;
+	    		width: 250px;
+	    		&-1, &-2{
+	    			font-size: 22px;
+	    			color: #FFF;
+	    			width: 250px;
+	    			@extend .textOverflow
+	    		}
+	    		
+	    	}
+	    	.table-exchange{
+	    		float: left;
+	    		.exchange-coin-btn{
+	    			width: 148px;
+	    			height: 63px;
+	    			@include backgroundContain('../image/exchange-coin-btn.png');
+	    		}
+	    	}
+	    }
+	    .table-stage{
+	    	margin-left: 8px;
+	    	margin-top:20px;
+	    	&-item{
+	    		width: 204px;
+	    		height: 82px;
+	    		float: left;
+	    		position: relative;
+	    		margin: 4px;
+	    		@include backgroundContain('../image/table-stage-item-bg.png')
+
+    			&-icon-wrap{
+    				width: 55px;
+    				height: 55px;
+    				margin: 12px 0 12px 12px;
+    				position: relative;
+    			}
+    			&-icon{
+    				max-width: 55px;
+    				max-height: 55px;
+    				position: absolute;
+			    	top: 0;
+			    	left: 0;
+			    	right: 0;
+			    	bottom: 0;
+			    	margin: auto;
+    			}
+    			&-times{
+    				position: absolute;
+    				top: 6px;
+    				left: 65px;
+    				font-size: 18px;
+    				span {
+    					color:#ff0a35;
+    				}
+    			}
+
+    			&-num {
+    				position: absolute;
+    				top: 17px;
+    				right: 11px;
+    				text-align: center;
+    				color:#ff0a35;
+    				opacity:0.72;
+					background:#f9f5f0;
+					border-radius:85px;
+					width:83px;
+					height:22px;
+					line-height: 22px;
+					@extend .textOverflow;
+    			}
+
+    			&-tip{
+    				font-size: 24px;
+    				font-family: "楷体";
+    				position: absolute;
+    				top: 41px;
+    				right: 9px;
+    				font-size:24px;
+					color:#e45151;
+					text-align:center;
+    			}
+	    	}
+	    }
+	}
+}
+
+.handle-section {
+	width: 690px;
+	height: 102px;
+	margin: 0 auto;
+	margin-top: 16px;
+	.repeat-action{
+		float: left;
+		&-btn{
+			
+			width: 102px;
+			height: 102px;
+    		@include backgroundContain('../image/repeat-action-btn.png');
+
+		}
+	}
+	.knife-section{
+		margin-left: 10px;
+		height: 102px;
+		float: left;
+		background:rgba(201,236,122,0.22);
+		width: 570px;
+		overflow: hidden;
+    	white-space: nowrap;
+		.knife-item{
+			float: left;
+			text-align: center;
+			overflow: hidden;
+			width: 114px;
+			height: 102px;
+			@include backgroundContain('../image/knife-bg.png');
+			background-size: 70%;
+			&-img{
+
+			}
+			&-price{
+				width:100%;
+				color: #FFF;
+				text-align: center;
+				font-size: 20px;
+				font-weight: bold;
+				-webkit-text-stroke: 1px #eab528;
+			}
+		}
+		.check {
+			@include backgroundContain('../image/knife-select-bg.png');
+			background-size: 70%;
 		}
 	}
 }

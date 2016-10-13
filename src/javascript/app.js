@@ -24,12 +24,175 @@ App.prototype = {
 
 
 		$(".stage").css({
-			transform: 'scale('+scale+')',
+			//transform: 'scale('+scale+')',
 		});
 	},
 	init: function(){
 		this.initWindow();
+		
+		this.initData();
+		this.vm = new Vue({
+			el: ".stage",
+			data: this.vmData,
+			methods: {},
+		});
+
+	},
+
+	initData: function(){
+		this.vmData = {};
+		this.vmData.dataTableFruitList = [
+			{
+				id: 1,
+				img: "./image/fruit/grap-l.png",
+			},
+			{
+				id: 2,
+				img: "./image/fruit/watermelon-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/grap-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-l.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/watermelon-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/grap-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-l.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/watermelon-l.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/watermelon-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/grap-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-l.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/watermelon-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/grap-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-l.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/banana-x.png",
+			},
+			{
+				id: 1,
+				img: "./image/fruit/apple-x.png",
+			},
+		
+		];
+		this.vmData.dataTableStageList = [
+			{
+				img: "./image/fruit/watermelon-l.png",
+				num: 40,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/grap-l.png",
+				num: 30,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/banana-l.png",
+				num: 20,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/apple-l.png",
+				num: 10,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/watermelon-x.png",
+				num: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/grap-x.png",
+				num: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/banana-x.png",
+				num: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			{
+				img: "./image/fruit/apple-x.png",
+				num: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+
+		];
 	}
+
 }
 new App();
 

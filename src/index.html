@@ -6,7 +6,7 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<link rel="stylesheet" type="text/css" href="./style/app.css">
-	<title>Gulp ES6 AutoPrefix</title>
+	<title>水果忍者</title>
 
 </head>
 <body>
@@ -59,116 +59,107 @@
 				<button class="sound-btn"></button>
 			</div>
 		</div>
-		<div class="banker-section" >
+		<div class="banker-section clearfix" >
 			<div class="banker-info" >
-				<div class="banker-title" >水果大挑战</div>
+				<div class="banker-title" ></div>
 				<div class="banker-status" >
-					<div>历练值不值50</div>
-					<div>历练值不值50</div>
+					<div  class="banker-status-1">历练值不值50</div>
+					<div  class="banker-status-2">历练值不值50</div>
 					<button class="banker-up-btn">上庄挑战</button>
 				</div>
 			</div>
 			<div class="banker-list" >
 				<div class="banker-list-title" >当前庄家</div>
-				<div class="banker-list-head" >
-					<div class="banker-list-rank">排序</div>
-					<div class="banker-list-name">昵称</div>
-					<div class="banker-list-value">历练值</div>
-				</div>
-				<div class="banker-list-main" >
-					<ul>
-						<li>
-							<div class="banker-list-rank">排序</div>
-							<div class="banker-list-name">昵称</div>
-							<div class="banker-list-value">历练值</div>
-						</li>
-					</ul>
+				<i class="banker-list-slide" ></i>
+				<div class="banker-list-body" >
+					<div class="banker-list-head" >
+						<div class="banker-list-item banker-list-rank">排序</div>
+						<div class="banker-list-item  banker-list-name">昵称</div>
+						<div class="banker-list-item  banker-list-value">历练值</div>
+					</div>
+					<div class="banker-list-main" >
+						<ul>
+							<li>
+								<div class="banker-list-item banker-list-rank">1</div>
+								<div class="banker-list-item banker-list-name">味花生豆腐</div>
+								<div class="banker-list-item banker-list-value">2000120</div>
+							</li>
+							<li>
+								<div class="banker-list-item banker-list-rank">1</div>
+								<div class="banker-list-item banker-list-name">味花生豆腐</div>
+								<div class="banker-list-item banker-list-value">2000120</div>
+							</li>
+						</ul>
+					</div>
+					
 				</div>
 			</div>
 		</div>
 		<div class="table-section">
-			<div class="table-section-top" >
-				<div class="fruit-item" >
-					<img  class="fruit-item-img"  src="">
+			<div class="table-section-top clearfix" >
+				<div class="fruit-item" v-for="n in [0,1,2,3,4,5] " track-by="$index" >
+					<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
 				</div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
+				
+				
 			</div>
-			<div class="table-section-middle" >
+			<div class="table-section-middle  clearfix" >
 				<div class="table-section-left" >
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
+					<div class="fruit-item" v-for="n in [21,20,19,18,17] " track-by="$index" >
+						<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
+					</div>
 				</div>
 				<div class="table-section-center" >
 					<div class="table-time" >切水果时间:19</div>
-					<div class="table-info" >
-						<div class="table-user-info-" >
+					<div class="table-info clearfix" >
+						<div class="table-user-info" >
+							<div class="table-user-info-1" >
+								我的历练值: 13131
+							</div>
+							<div class="table-user-info-2" >
+								我的战绩: 13131
+							</div>
 						</div>
 						<div class="table-exchange" >
-							<button class="exchange-coin"></button>
+							<button class="exchange-coin-btn"></button>
 						</div>
 					</div>
 					<div class="table-stage" >
-						<div class="table-stage-item">
-							<img class="table-stage-item-icon" src="">
-							<div class="table-stage-item-times" >x <span>40</span></div>
-							<div class="table-stage-item-num" >1000</div>
-							<div class="table-stage-item-tip" >点击切水果</div>
+						<div class="table-stage-item" v-for="item in dataTableStageList">
+							<div class="table-stage-item-icon-wrap">
+								<img class="table-stage-item-icon" v-bind:src="item.img">
+							</div>
+							<div class="table-stage-item-times" >x <span>{{item.num}}</span></div>
+							<div class="table-stage-item-num" >{{item.count}}</div>
+							<div class="table-stage-item-tip" v-if="item.status==0"  >点击切水果</div>
+							<div class="table-stage-item-tip2" v-if="item.status==1" >{{item.total}}</div>
 						</div>
-						<div class="table-stage-item">
-							<img class="table-stage-item-icon" src="">
-							<div class="table-stage-item-times" >x <span>40</span></div>
-							<div class="table-stage-item-num" >1000</div>
-							<div class="table-stage-item-tip" >点击切水果</div>
-						</div>
-						<div class="table-stage-item">
-							<img class="table-stage-item-icon" src="">
-							<div class="table-stage-item-times" >x <span>40</span></div>
-							<div class="table-stage-item-num" >1000</div>
-							<div class="table-stage-item-tip" >点击切水果</div>
-						</div>
-						<div class="table-stage-item">
-							<img class="table-stage-item-icon" src="">
-							<div class="table-stage-item-times" >x <span>40</span></div>
-							<div class="table-stage-item-num" >1000</div>
-							<div class="table-stage-item-tip" >点击切水果</div>
-						</div>
+						
 					</div>
 				</div>
 				<div class="table-section-right" >
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
-					<div class="fruit-item" ></div>
+					<div class="fruit-item" v-for="n in [6,7,8,9,10] " track-by="$index" >
+						<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img"/>
+					</div>
 				</div>
 				
 			</div>
-			<div class="table-section-bottom" >
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
-				<div class="fruit-item" ></div>
+			<div class="table-section-bottom  clearfix" >
+				<div class="fruit-item" v-for="n in [16,15,14,13,12,11] " track-by="$index" >
+					<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
+				</div>
 			</div>
 			
 		</div>
 
 		<div class="handle-section" >
 			<div class="repeat-action">
-				<button class="repeat-action-btn" ></div>
+				<button class="repeat-action-btn" ></buton>
 			</div>
 
 			<div class="knife-section">
-				<div class="knife-item" >
-					<img class="knife-item-img" />
+				<div class="knife-item check" >
+					<img class="knife-item-img" src="./image/knife-1.png" />
 					<img class="check-icon" />
 					<div class="knife-item-price">500</div>
 				</div>
@@ -192,11 +183,7 @@
 					<img class="check-icon" />
 					<div class="knife-item-price">500</div>
 				</div>
-				<div class="knife-item" >
-					<img class="knife-item-img" />
-					<img class="check-icon" />
-					<div class="knife-item-price">500</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
