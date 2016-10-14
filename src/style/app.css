@@ -10,8 +10,11 @@ body {
   margin: 0;
   font-size: 12px;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  background: url(../image/background.png) top left;
-  background-size: contain; }
+  background: url(../image/background.png);
+  -webkit-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent; }
 
 div {
   box-sizing: border-box; }
@@ -34,16 +37,14 @@ ul, li {
   zoom: 1; }
 
 .stage {
-  width: 720px;
-  height: 1120px;
   overflow: hidden;
-  margin: 0 auto;
   background: url("../image/background.png") no-repeat center;
   background-size: contain;
   -webkit-transform: translateY(0);
           transform: translateY(0);
   -webkit-transform-origin: 0 0;
-          transform-origin: 0 0; }
+          transform-origin: 0 0;
+  position: relative; }
 
 .navbar {
   width: 100%;
@@ -97,8 +98,9 @@ ul, li {
       display: inline-block;
       margin-left: 14px; }
     .history-section .history-list-img {
-      width: 40px;
-      height: 40px;
+      max-width: 40px;
+      max-height: 40px;
+      vertical-align: middle;
       margin: auto; }
     .history-section .history-list-left-btn {
       background: url("../image/history-left-btn.png") no-repeat center;
@@ -140,15 +142,13 @@ ul, li {
     background: url("../image/banker-text.png") no-repeat center;
     background-size: contain; }
   .banker-section .banker-status {
-    width: 100px;
+    width: 98;
     float: left;
     margin-left: 30px;
     margin-top: 4px;
     font-size: 14px;
     color: #FFF; }
-    .banker-section .banker-status-1 {
-      text-align: center; }
-    .banker-section .banker-status-2 {
+    .banker-section .banker-status-text {
       text-align: center; }
     .banker-section .banker-status .banker-up-btn {
       color: #000;
@@ -192,9 +192,13 @@ ul, li {
       width: 84px;
       text-align: center;
       margin-left: 10px; }
-    .banker-section .banker-list-main li {
-      display: block;
-      white-space: nowrap; }
+    .banker-section .banker-list-main {
+      overflow: auto;
+      height: 64px; }
+      .banker-section .banker-list-main li {
+        display: block;
+        white-space: nowrap;
+        line-height: 18px; }
 
 .table-section {
   width: 690px;
@@ -223,6 +227,9 @@ ul, li {
       right: 0;
       bottom: 0;
       margin: auto; }
+  .table-section .fruit-item.active {
+    background: url("../image/fruit-active-bg.png") no-repeat center;
+    background-size: contain; }
   .table-section-left {
     width: 126px;
     float: left; }
@@ -321,6 +328,9 @@ ul, li {
       height: 102px;
       background: url("../image/repeat-action-btn.png") no-repeat center;
       background-size: contain; }
+    .handle-section .repeat-action-btn.disable {
+      background: url("../image/repeat-action-btn-disable.png") no-repeat center;
+      background-size: contain; }
   .handle-section .knife-section {
     margin-left: 10px;
     height: 102px;
@@ -337,7 +347,8 @@ ul, li {
       height: 102px;
       background: url("../image/knife-bg.png") no-repeat center;
       background-size: contain;
-      background-size: 70%; }
+      background-size: 70%;
+      position: relative; }
       .handle-section .knife-section .knife-item-price {
         width: 100%;
         color: #FFF;
@@ -345,7 +356,27 @@ ul, li {
         font-size: 20px;
         font-weight: bold;
         -webkit-text-stroke: 1px #eab528; }
-    .handle-section .knife-section .check {
+    .handle-section .knife-section .disable {
+      -webkit-filter: grayscale(1);
+              filter: grayscale(1); }
+    .handle-section .knife-section .active {
       background: url("../image/knife-select-bg.png") no-repeat center;
       background-size: contain;
       background-size: 70%; }
+
+.bottom-section {
+  width: 690px;
+  height: 102px;
+  margin: 0 auto;
+  margin-top: 16px; }
+  .bottom-section .bottom-btn {
+    width: 220px;
+    height: 90px;
+    font-size: 32px;
+    color: #FFF;
+    margin-right: 6px;
+    background: url("../image/bottom-btn.png") no-repeat center;
+    background-size: contain; }
+  .bottom-section .active {
+    background: url("../image/bottom-btn-active.png") no-repeat center;
+    background-size: contain; }

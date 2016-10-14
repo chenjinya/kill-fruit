@@ -19,8 +19,11 @@ body{
  	margin: 0;
  	font-size: 12px;
  	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
- 	background: url(../image/background.png) top left;
- 	background-size: contain;
+ 	background: url(../image/background.png)  ;
+    text-size-adjust: 100%;
+    tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+
  }
 div {
     box-sizing: border-box;
@@ -48,15 +51,13 @@ ul,li{
 }
 
 .stage{
-    width: 720px;
-    height: 1120px;
+    //width: 720px;
+    //height: 1280px;
     overflow: hidden;
-    margin: 0 auto;
     @include backgroundContain('../image/background.png');
     transform: translateY(0);
     transform-origin: 0 0;
-
-
+    position: relative;
 }
 .navbar{
 
@@ -124,8 +125,9 @@ ul,li{
 			margin-left: 14px;
 		}
 		&-img{
-			width:40px;
-			height: 40px;
+			max-width:40px;
+			max-height: 40px;
+			vertical-align: middle;
 			margin: auto;
 		}
 
@@ -172,18 +174,16 @@ ul,li{
 	}
 
 	.banker-status{
-		width: 100px;
+		width: 98;
 		float: left;
 		margin-left: 30px;
 		margin-top: 4px;
 		font-size:14px;
 		color: #FFF;
-		&-1{
+		&-text{
 			text-align: center;
 		}
-		&-2{
-			text-align: center;
-		}
+		
 		.banker-up-btn{
 			color: #000;
 			margin-top: 10px;
@@ -247,9 +247,12 @@ ul,li{
 		}
 
 		&-main{
+			overflow: auto;
+			height: 64px;
 			li {
 				display: block;
 				white-space: nowrap;
+				line-height: 18px;
 			}
 		}
 
@@ -289,8 +292,13 @@ ul,li{
 	    	//@include backgroundContain('../image/fruit/watermelon-l.png');
 	    }
 
+
+
 	}
 
+	.fruit-item.active{
+		@include backgroundContain('../image/fruit-active-bg.png');
+	}
 
 
 	&-top{
@@ -429,7 +437,11 @@ ul,li{
     		@include backgroundContain('../image/repeat-action-btn.png');
 
 		}
+		&-btn.disable{
+			@include backgroundContain('../image/repeat-action-btn-disable.png');
+		}
 	}
+
 	.knife-section{
 		margin-left: 10px;
 		height: 102px;
@@ -438,6 +450,7 @@ ul,li{
 		width: 570px;
 		overflow: hidden;
     	white-space: nowrap;
+    	
 		.knife-item{
 			float: left;
 			text-align: center;
@@ -446,6 +459,7 @@ ul,li{
 			height: 102px;
 			@include backgroundContain('../image/knife-bg.png');
 			background-size: 70%;
+			position: relative;
 			&-img{
 
 			}
@@ -457,10 +471,32 @@ ul,li{
 				font-weight: bold;
 				-webkit-text-stroke: 1px #eab528;
 			}
+			
 		}
-		.check {
+		.disable{
+			filter: grayscale(1);
+		}
+		.active {
 			@include backgroundContain('../image/knife-select-bg.png');
 			background-size: 70%;
 		}
+	}
+}
+.bottom-section{
+	width: 690px;
+	height: 102px;
+	margin: 0 auto;
+	margin-top: 16px;
+
+	.bottom-btn{
+		width: 220px;
+		height:90px;
+		font-size: 32px;
+		color: #FFF;
+		margin-right: 6px;
+		@include backgroundContain('../image/bottom-btn.png');
+	}
+	.active{
+		@include backgroundContain('../image/bottom-btn-active.png');
 	}
 }
