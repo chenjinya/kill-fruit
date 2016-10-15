@@ -3,11 +3,14 @@ var App = function(){
 };
 App.prototype = {
 	window: {
-		height: 1280,
+		height: 1230,
 		width: 720,
 	},
 	stageWidth: 720,
-	stageHeight: 1280,
+	stageHeight: 1230,
+	scale : 1,
+
+	//轮盘水果数据
 	fruitList: [
 		4,
 		7,
@@ -33,6 +36,7 @@ App.prototype = {
 		1,
 		
 	],
+	//水果数据
 	fruitData: {
 		1: {
 			id: 1,
@@ -67,11 +71,67 @@ App.prototype = {
 			img: "./image/fruit/watermelon-l.png",
 		}
 	},
+	//刀具数据
+	knifeData: {
+		1: {
+			id:1,
+			money: 500,
+			img: './image/knife-1.png',
+			active: false,
+		},
+		2: {
+			id:2,
+			money: 1000,
+			img: './image/knife-2.png',
+			active: false,
+		},
+		3: {
+			id:3,
+			money: 5000,
+			img: './image/knife-3.png',
+			active: false,
+		},
+		4: {
+			id:4,
+			money: 10000,
+			img: './image/knife-4.png',
+			active: false,
+		},
+		5: {
+			id:5,
+			money: 50000,
+			img: './image/knife-5.png',
+			active: false,
+		},
+	},
+	//刀具切水果展示位置
+	knifeClickPos:{},
+	//刀具切水果展示
+	knifeClickShow: false,
+	//刀具切水果展示timeout
+	knifeClickTimeout: null,
+
+	//弹窗timeout
+	alertInfoTimeout: null,
+
+	//倒计时timer
+	timer: null,
+
+
+
+	//轮盘旋转时间
+	loopTime: 1000,
+	loopFruitTimeout: null,
+	loopCircle: 5,
+
+	step1Time: 1,
+	step2Time: 10,
+	step3Time: 1,
 	initWindow: function(){
 		this.windowRate = this.stageWidth / this.stageHeight; // 720 / 1280
 		this.window.height = $(window).height();
 		this.window.width = $(window).width();
-		var scale = 1;
+		var scale = this.scale = 1;
 		var width = this.window.width;
 		var height = this.window.height;
 		if(width / height > this.windowRate){
@@ -81,7 +141,7 @@ App.prototype = {
 			height = width / this.windowRate;
 			scale = width / this.stageWidth;
 		}
-
+		this.scale = scale;
 		$(".stage").css({
 			width: this.stageWidth + "px",
 			height: this.stageHeight + "px",
@@ -95,31 +155,266 @@ App.prototype = {
 			height: height + "px",
 		});
 	},
+	initVuePlugin: function(){
+		var self = this;
+		//add a tap. to fast touched action
+		Vue.directive('tap', {
+			acceptStatement:true,
+			bind: function () {
+				var plugin = this;
+				this.el.addEventListener("touchstart", function(e){
+					if(typeof plugin.handler == "function"){
+						self.knifeClickPos.x = e.changedTouches[0].clientX;
+						self.knifeClickPos.y = e.changedTouches[0].clientY;
+						plugin.handler.call(this)
+					}
+				});
+			},
+			update: function (fn) {
+				this.handler = fn;
+			},
+			unbind: function () {
+			
+			}
+		});
+	},
 	init: function(){
 		var self = this;
 		this.initWindow();
-		
 		this.initData();
+		this.initVuePlugin();
 		this.vm = new Vue({
-			el: ".stage",
+			el: ".app",
 			data: this.vmData,
 			methods: {
-				handleKnifeBtn: function(index){
-					console.log(index)
-					if(self.vmData.dataTableKnifeList[index].money < self.vmData.dataUserInfo.money){
-						for(var i in self.vmData.dataTableKnifeList){
-							self.vmData.dataTableKnifeList[i].active = false;
-						}
-						self.vmData.dataTableKnifeList[index].active = true;
+				handleKnifeBtn: function(item){
+					if(self.vmData.dataGameStatus.step !=2){
+						console.log("游戏未开始")
+						return false;
+					}
+					if(item.money <= self.vmData.dataUserInfo.money){
+						self.vmData.currentKnife = item;
+						self.vmData.knifeClickShow = false;
 					} else {
-						alert("没钱")
+						self.alert({
+							title: '提示',
+							content: '<p>余额不足</p>',
+						});
+						self.vmData.currentKnife = 0;
 					}
 					return false;
+				},
+				handleCutFruit: function(item){
+					if(self.vmData.dataGameStatus.step !=2){
+						console.log("游戏未开始")
+						return false;
+					}
+					if(!self.vmData.currentKnife){
+						self.alert({
+							title: '提示',
+							content: '<p>请先选择刀具后切水果</p>',
+						});
+						return false;
+					}
+					var money = self.vmData.currentKnife.money ;
+					if(self.vmData.dataUserInfo.money - money < 0){
+						self.alert({
+							title: '提示',
+							content: '<p>余额不足</p>',
+						});
+						self.vmData.currentKnife = 0;
+
+						return false;
+					}
+					self.vmData.currentFruit = item;
+					item.count += money ;//个人的
+					item.total += 1 ;//全部的次数
+
+					self.vmData.dataUserInfo.money -= money;
+
+					self.vmData.knifeClickShow = false;
+
+					if(!self.vmData.currentCut[item.id]){
+						self.vmData.currentCut[item.id] = {
+							id: item.id,
+							times: 0,
+							money: money,
+						}
+					}
+					self.vmData.currentCut[item.id].times += 1;
+
+					self.vmData.knifeClickStyle = {
+						top: self.knifeClickPos.y / self.scale + "px",
+						left: self.knifeClickPos.x / self.scale + "px",
+					};
+					setTimeout(function(){
+						self.vmData.knifeClickShow = true;
+					}, 10);
+
+					self.knifeClickTimeout && clearTimeout(self.knifeClickTimeout);
+					self.knifeClickTimeout = setTimeout(function(){
+						self.vmData.knifeClickShow = false;
+					}, 2000);
+
+					// self.vmData.dataUserInfo.diffMoney -= money;
+				},
+				handlerRepeatBtn: function(){
+					var lastCut = self.vmData.lastCut;
+					for( var i in lastCut){
+						var cut = lastCut[i];
+						self.vm.handleCutFruit(self.vmData.dataTableStageList[cut.id]);
+					}
+					//self.vmData.currentCut = lastCut;
+				},
+				handlerCloseAlert: function(){
+					self.vmData.alertInfo.out = true;
 				}
 			},
 		});
+		this.process();
 	},
+	process: function(){
+		//get no status
+		var step = 1;
+		var time = 0;
+		switch(step){
+			case 1:
+				this.processStepReady(time);
+				break;
+			case 2:
+				this.processStepCuting(time);
+				break;
+			case 3:
+				this.processStepPosting(time);
+				break;
+			default:
+				this.alert({
+					content: "数据错误"
+				});
+				break;
+		}
+	},
+	processStepReady : function(initTime){
+		var self = this;
+		this.vmData.dataGameStatus.step = 1;
+		this.vmData.dataGameStatus.loopCircle = this.loopCircle;
+		this.timeCouting(initTime ? initTime : this.step1Time, function(){
+			self.processStepCuting(self.step2Time);
+		});
+		this.vmData.dataLoopFruit.no = -1;
+		for( var i in this.vmData.dataTableStageList){
+			this.vmData.dataTableStageList[i].count = 0;
+			this.vmData.dataTableStageList[i].total = 0;
+		}
+	},
+	processStepCuting : function(initTime){
+		
 
+		console.log(this.vmData.currentCut);
+		var self = this;
+		this.vmData.dataGameStatus.step = 2;
+		this.timeCouting(initTime ? initTime : this.step2Time, function(){
+			
+		});
+		var oldNo = this.vmData.dataLoopFruit.end;
+		var endNo = Math.floor((Math.random()* 22));
+		this.vmData.dataLoopFruit = {
+			no: oldNo,
+			id: 0,
+			end: endNo,
+		};
+		console.log("start", oldNo, "end", endNo)
+		this.loopFruitList(true);
+	},
+	processStepPosting : function(initTime){
+		var self = this;
+		this.vmData.dataGameStatus.step = 3;
+		var costMoney = 0;
+		var earnMoney = 0;
+		for(var i in this.vmData.currentCut){
+
+			var cutItem = this.vmData.currentCut[i];
+			var fruitId = cutItem.id;
+			console.log(self.vmData.dataLoopFruit.id)
+			console.log(cutItem.id);
+			costMoney += cutItem.times * cutItem.money;
+			if(fruitId == this.vmData.dataLoopFruit.id){
+				console.log("中奖了");
+				earnMoney = this.vmData.dataTableStageList[fruitId].times * cutItem.times * cutItem.money;
+				this.vmData.dataUserInfo.money += earnMoney;
+				this.vmData.dataUserInfo.diffMoney += earnMoney;
+			} 
+			
+		}
+
+		this.vmData.dataTableHistoryList.push(this.fruitData[self.vmData.dataLoopFruit.id]);
+		if(this.vmData.dataTableHistoryList.length > 10){
+			this.vmData.dataTableHistoryList.shift();
+		}
+		//this.vmData.dataUserInfo.money -= costMoney;
+		this.vmData.dataUserInfo.diffMoney -= costMoney;
+
+		this.vmData.lastCut = Object.assign({}, this.vmData.currentCut);
+		this.vmData.currentCut = {};
+
+		this.timeCouting(initTime ? initTime : this.step3Time, function(){
+			self.processStepReady(self.step1Time);
+		});
+	},
+	loopFruitList: function(init){
+		var self = this;
+
+		var v = self.vmData.dataGameStatus.timeout;
+		if(v == 0){
+			v= 1;
+		}
+		self.loopTime  = 50;//100 * 20 / v;
+		console.log("loop time", self.loopTime);
+		if(this.vmData.dataGameStatus.loopCircle > 0){
+			this.loopTime = 50;
+		}
+		this.loopFruitTimeout && clearTimeout(this.loopFruitTimeout);
+		this.loopFruitTimeout = setTimeout(function(){
+			if(init){
+				var fruitIndex = self.vmData.dataLoopFruit.no;
+				var currentLoopFruit = self.vmData.dataTableFruitList[fruitIndex];
+				currentLoopFruit.no = fruitIndex;
+				self.vmData.dataLoopFruit.id = currentLoopFruit.id;
+				//console.log(self.vmData.dataLoopFruit)
+			}
+			++ self.vmData.dataLoopFruit.no;
+			if(self.vmData.dataLoopFruit.no >= self.vmData.dataTableFruitList.length - 1){
+				self.vmData.dataLoopFruit.no = 0;
+				self.vmData.dataGameStatus.loopCircle --;
+			}
+			if(self.vmData.dataGameStatus.loopCircle <=0 && self.vmData.dataLoopFruit.no == self.vmData.dataLoopFruit.end){
+				self.vmData.dataLoopFruit.id = self.vmData.dataTableFruitList[self.vmData.dataLoopFruit.no].id;
+				self.processStepPosting(13 );
+				return true;
+			}  
+
+			self.loopFruitList();
+
+		}, this.loopTime);
+	},
+	timeCouting: function(initNum,fn, processfn){
+		var self = this;
+		this.vmData.dataGameStatus.timeout = initNum;
+		this.timer = clearInterval(this.timer);
+		this.timer = setInterval(function(){
+			self.vmData.dataGameStatus.timeout --;
+			console.log("game time",self.vmData.dataGameStatus.timeout);
+			processfn && processfn();
+			if(self.vmData.dataGameStatus.timeout <= 0){
+				clearInterval(self.timer);
+				fn && fn();
+			}
+		}, 1000);
+		
+	},
+	bindUIEvent: function(){
+
+	},
 	initData: function(){
 
 		var fruitData = this.fruitData;
@@ -127,194 +422,90 @@ App.prototype = {
 		this.vmData.dataTableFruitList = [];
 		for(var i in this.fruitList){
 			var index = this.fruitList[i];
-			this.vmData.dataTableFruitList.push(_.clone(fruitData[index]));
+			this.vmData.dataTableFruitList.push(Object.assign({}, fruitData[index]));
 		}
 
 		this.vmData.dataTableFruitList[2].active = true;
 
-		this.vmData.dataTableStageList = [
-			{
+		this.vmData.dataTableStageList = {
+			8: {
+				id: 8,
 				img: fruitData[8].img,
-				num: 40,
+				times: 40,
 				status: 0,
 				count: 0,
 				total: 0,
 			},
-			{
+			4: {
+				id: 4,
 				img: fruitData[4].img,
-				num: 30,
+				times: 30,
 				status: 0,
 				count: 0,
 				total: 0,
 			},
-			{
+			6: {
+				id: 6,
 				img: fruitData[6].img,
-				num: 20,
+				times: 20,
 				status: 0,
 				count: 0,
 				total: 0,
 			},
-			{
-				img: fruitData[2].img,
-				num: 10,
-				status: 0,
-				count: 0,
-				total: 0,
-			},
-			{
-				img: fruitData[7].img,
-				num: 5,
-				status: 0,
-				count: 0,
-				total: 0,
-			},
-			{
-				img: fruitData[3].img,
-				num: 5,
-				status: 0,
-				count: 0,
-				total: 0,
-			},
-			{
-				img: fruitData[5].img,
-				num: 5,
-				status: 0,
-				count: 0,
-				total: 0,
-			},
-			{
-				img: fruitData[1].img,
-				num: 5,
-				status: 0,
-				count: 0,
-				total: 0,
-			},
-
-		];
-
-		this.vmData.dataTableKnifeList = [
-			{
-				id:1,
-				money: 500,
-				img: './image/knife-1.png',
-				active: false,
-			},
-			{
-				id:2,
-				money: 1000,
-				img: './image/knife-2.png',
-				active: false,
-			},
-			{
-				id:3,
-				money: 5000,
-				img: './image/knife-3.png',
-				active: false,
-			},
-			{
-				id:4,
-				money: 10000,
-				img: './image/knife-4.png',
-				active: false,
-			},
-			{
-				id:5,
-				money: 50000,
-				img: './image/knife-5.png',
-				active: false,
-			},
-		];
-
-		this.vmData.dataTableHistoryList = [
-			{
-				id: 1,
-				img: "./image/fruit/grap-l.png",
-			},
-			{
+			2: {
 				id: 2,
-				img: "./image/fruit/watermelon-x.png",
+				img: fruitData[2].img,
+				times: 10,
+				status: 0,
+				count: 0,
+				total: 0,
 			},
-			{
+			7: {
+				id: 7,
+				img: fruitData[7].img,
+				times: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			3: {
+				id: 3,
+				img: fruitData[3].img,
+				times: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			5: {
+				id: 5,
+				img: fruitData[5].img,
+				times: 5,
+				status: 0,
+				count: 0,
+				total: 0,
+			},
+			1: {
 				id: 1,
-				img: "./image/fruit/grap-x.png",
+				img: fruitData[1].img,
+				times: 5,
+				status: 0,
+				count: 0,
+				total: 0,
 			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-l.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/watermelon-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/grap-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-l.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/watermelon-l.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/watermelon-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/grap-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-l.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/watermelon-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/grap-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-l.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/banana-x.png",
-			},
-			{
-				id: 1,
-				img: "./image/fruit/apple-x.png",
-			},
-		];
+
+		};
+
+		this.vmData.dataTableKnifeList = [];
+		for( var i in this.knifeData){
+			this.vmData.dataTableKnifeList.push(this.knifeData[i]);
+		}
+
+		this.vmData.dataTableHistoryList = [];
+		// for( var i in [1,4,3,5,7,5,3,4,2,8,7,6 ]){
+		// 	var index = [1,4,3,5,7,5,3,4,2,8,7,6 ][i];
+		// 	this.vmData.dataTableHistoryList.push(this.fruitData[index]);
+		// }
+		
 		this.vmData.dataBankerList = [
 			{
 				name: "花生与米国",
@@ -332,17 +523,57 @@ App.prototype = {
 				name: "混沌使者",
 				money: 1231393,
 			}
-		]
+		];
+
+
 		this.vmData.dataGameStatus = {
 			timeout: 10,
-			step: 1, // 1 准备， 2， 切水果，3，公布
+			step: 2, // 1 准备， 2， 切水果，3，公布
+			loopCircle: 3,
 		}
 		this.vmData.dataUserInfo = {
 			isSound: false,
 			isBanker: true,
-			money: 500000000,
-			diffMoney: 100,
+			money: 5000,
+			diffMoney: 0,
+			
 		}
+		this.vmData.currentKnife = 0;
+		this.vmData.currentFruit = {};
+		this.vmData.currentCut = {};
+		this.vmData.knifeClickShow = false;
+		this.vmData.knifeClickStyle = {
+			display: 'none',
+			top: 0,
+			left: 0,
+		}
+		this.vmData.alertInfo = {
+			title: '',
+			content: '',
+			out: true,
+		};
+		this.vmData.dataLoopFruit = {
+			id: 0,
+			no: -1,
+			end: 0,
+		}
+	}, 
+	alert: function(alertInfo, noautoclose){
+		var self = this;
+		alertInfo.out = false;
+		if(!alertInfo.title){
+			alertInfo.title = "提示";
+		}
+		this.vmData.alertInfo = alertInfo;
+		if(!noautoclose) {
+			self.alertInfoTimeout && clearTimeout(self.alertInfoTimeout);
+			self.alertInfoTimeout = setTimeout(function(){
+				console.log('hide')
+				self.vmData.alertInfo.out = true;
+				console.log(self.vmData.alertInfo)
+			}, 2000);
+		}
+		
 	}
 
 }

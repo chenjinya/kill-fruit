@@ -1,4 +1,4 @@
-$height: 1280px;
+$height: 1230px;
 $width: 640px;
 
 .textOverflow {
@@ -11,6 +11,15 @@ $width: 640px;
 	background: url($url) no-repeat center;
     background-size: contain;
 
+}
+
+@keyframes shining-prize-bg {
+	0% {
+		@include backgroundContain('../image/fruit-active-bg.png');
+	}
+	50% {
+		@include backgroundContain('../image/fruit-bg.png');
+	}
 }
 
 body{
@@ -119,16 +128,24 @@ ul,li{
 		overflow: hidden;
 		overflow-x: scroll;
 		&-body{
+
 		}
 		&-item{
 			display: inline-block;
 			margin-left: 14px;
+			position: relative;
+			height: 40px;
+			width: 40px;
 		}
 		&-img{
 			max-width:40px;
 			max-height: 40px;
-			vertical-align: middle;
-			margin: auto;
+			position: absolute;
+	    	top: 0;
+	    	left: 0;
+	    	right: 0;
+	    	bottom: 0;
+	    	margin: auto;
 		}
 
 		&-left-btn{
@@ -299,6 +316,9 @@ ul,li{
 	.fruit-item.active{
 		@include backgroundContain('../image/fruit-active-bg.png');
 	}
+	.fruit-item.active.shining{
+		animation: shining-prize-bg 1s infinite;
+	}
 
 
 	&-top{
@@ -359,13 +379,19 @@ ul,li{
 	    .table-stage{
 	    	margin-left: 8px;
 	    	margin-top:20px;
+	    	&-item:active {
+	    		background: #efa366;
+	    	}
 	    	&-item{
 	    		width: 204px;
 	    		height: 82px;
 	    		float: left;
 	    		position: relative;
 	    		margin: 4px;
-	    		@include backgroundContain('../image/table-stage-item-bg.png')
+	    		//@include backgroundContain('../image/table-stage-item-bg.png')
+	    		background: #f8be8f;
+	    		border: 2px solid #958e89;
+	    		border-radius: 10px;
 
     			&-icon-wrap{
     				width: 55px;
@@ -392,8 +418,8 @@ ul,li{
     					color:#ff0a35;
     				}
     			}
-
     			&-num {
+    				font-size: 18px;
     				position: absolute;
     				top: 17px;
     				right: 11px;
@@ -416,7 +442,33 @@ ul,li{
     				right: 9px;
     				font-size:24px;
 					color:#e45151;
-					text-align:center;
+					text-align:right;
+					
+    			}
+    			&-tip-total {
+    				position: absolute;
+    				top: 45px;
+    				right: 9px;
+					text-align:right;
+					font-size:18px;
+					color:#33540d;
+				}
+    			&-knife{
+    				animation-duration: .5s;
+    				position: absolute;
+    				margin-top: -60px;
+    				margin-left: -25px;
+    				&-img {
+    					max-width: 50px;
+    					max-height: 50px;
+    				}
+    				&-money{
+    					text-align: center;
+		    			font-size: 20px;
+					    font-weight: bold;
+					    color: #1f9c13;
+    				}
+
     			}
 	    	}
 	    }
@@ -498,5 +550,51 @@ ul,li{
 	}
 	.active{
 		@include backgroundContain('../image/bottom-btn-active.png');
+	}
+}
+
+.alert-wrap{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.2);
+	z-index: 1;
+	animation-duration: .1s;
+}
+.alert-main{
+	z-index: 100;
+	position: absolute;
+    animation-duration: .1s;
+  
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background:#e0bf9c;
+	box-shadow:0px 45px 50px 0px rgba(0,0,0,0.50), inset 0px -1px 2px 5px rgba(255,255,255,0.40);
+	border-radius:30px;
+	width:639px;
+	height: 683px;
+	.alert-title{
+		margin-top: 29px;
+		font-size:38px;
+		color:#ab5d30;
+		text-align:center;
+	}
+	.alert-content{
+		font-size:34px;
+		color:#3a3939;
+		text-align:center;
+		background:#ffe3c5;
+		border:1px solid #ab5d30;
+		box-shadow:inset 0px 0px 2px 4px #6d3313;
+		border-radius:19px;
+		width:615px;
+		height:559px;
+		margin: 0 auto;
+		margin-top:24px ;
 	}
 }
