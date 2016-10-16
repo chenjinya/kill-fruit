@@ -422,10 +422,10 @@ App.prototype = {
 		var moneyRes = earnMoney - costMoney;
 
 		if(earnMoney == 0){
-			self.vmData.dataUserInfo.isSound && self.playAudio("lose" + Math.ceil(Math.random(0,1)));
+			self.vmData.dataUserInfo.isSound && self.playAudio("lose" + Math.ceil(Math.random(0,2)));
 			alertTitle = '<h3 class="alert-fail-title">很遗憾,本轮未中奖</h3><p  class="alert-fail-subtitle">历练值'+ (moneyRes) +'</p>';
 		} else {
-			self.vmData.dataUserInfo.isSound && self.playAudio("win" + Math.ceil(Math.random(0,1)));
+			self.vmData.dataUserInfo.isSound && self.playAudio("win" + Math.ceil(Math.random(0,2)));
 			alertTitle = '<h3 class="alert-success-title">恭喜您中奖</h3><p  class="alert-success-subtitle">历练值 '+ (moneyRes >= 0? '+' + moneyRes : moneyRes) + '</p>';
 		}
 		var prizeList = '';
