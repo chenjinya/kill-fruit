@@ -7,16 +7,31 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<link rel="stylesheet" type="text/css" href="./style/app.css">
 	<link rel="stylesheet" type="text/css" href="./style/vendor/animate.css">
-
+	<link rel="prefetch" href="./audio/turn.mp3" />  
+	<link rel="prefetch" href="./audio/win1.mp3" />  
+	<link rel="prefetch" href="./audio/win2.mp3" />  
+	<link rel="prefetch" href="./audio/lose1.mp3" />  
+	<link rel="prefetch" href="./audio/lose2.mp3" />  
+	<link rel="prefetch" href="./audio/cut.mp3" />  
 	<title>水果忍者</title>
 	<script type="text/javascript">
-// document.addEventListener('touchmove', function (event) {
-// event.preventDefault();
-// }, false);
+	document.addEventListener('touchmove', function (event) {
+		event.preventDefault();
+	}, false);
 	</script>
 
 </head>
 <body scroll="no" class="app">
+	<div class="audio-section" >
+		<audio class="audio-background" loop="loop" v-audio='background' src="./audio/background.mp3" ></audio>
+		<audio class="audio-trun" v-audio='turn' src="data:audio/mp3;base64,//NAwAAAAAJYAUAAACQAAAB/LCP4lg68CgO/wvA8G/IRRGD/wvg+CUHv/HufHGFrHn//koYm5kXR5g5///xCgSYDTDbAzx/G8cg4////8lhgHHeMGJ2ajnJMvDwBUCX/////5aQy4s3/80DAWxpDFninh2gAiaMGQhyLZI0PJnP//+gDQCAAAgCBGMDp6elgOkyTEgkFgJQpVPBW+xT9tjR+S3zJtybtGa7gBzFWUw+aR1gLeXyQzimtb1nGsJBYJ69iwi1eXNQ0/t3UuQA0Jf/zQMBNJJrCza2MYAAWR/sSOm1k5wnMXF0zHeJquTNF8V2DavgzOIU6FN7fXLHNemrszNrVr0zNrFhZ1FxgTCARD9fB3Z2Tlt46/Hl44GSywBHAjpBgVIncAC1e+yh5KqUDZrqJ7/a+//NAwBUUKMa2N8gYAAtm/JzNgI2ZouBEPR8GgoDSGOkoVdEp0ShoSxEeX5bWEwVMFRKGnlj0BXJPPJEoigtaDJJrgaUHWlhQkBsUuabuu/AZsUx7VmMBLXbql+zRv/MK2q/S5RJPIUX/80DAHxQCUo4+GEdJiMM815B4jTDWl7H0mbq4Z1/WH1Yx0v+NVJvY1/+/7H0mDJcWMWSQU7gVF/ze5MDdiiAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgAP/zQMAqAAACWAAAAAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAg//NAwIUAAAJYAAAAAAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAC/A7wNAAACvwNBDgAAAg=="  ></audio>
+
+		<audio class="audio-win1" v-audio='win1' src="./audio/win1.mp3"  ></audio>
+		<audio class="audio-win2" v-audio='win2' src="./audio/win2.mp3"  ></audio>
+		<audio class="audio-lose1" v-audio='lose1' src="./audio/lose1.mp3"  ></audio>
+		<audio class="audio-lose2" v-audio='lose2' src="./audio/lose2.mp3"  ></audio>
+		<audio class="audio-cut" v-audio='cut' src="data:audio/mp3;base64,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"  ></audio>
+	</div>
 	<div class="stage" >
 		<!-- <div class="navbar clearfix" >
 			<button class='ret-btn'></button>
@@ -33,7 +48,7 @@
 				<button class="history-list-right-btn"></button>
 			</div>
 			<div class="sound-section" >
-				<button class="sound-btn" v-bind:class="{ 'sound-close-btn': !dataUserInfo.isSound }"></button>
+				<button class="sound-btn" v-tap="handlerSwitchSound()" v-bind:class="{ 'sound-close-btn': !dataUserInfo.isSound }"></button>
 			</div>
 		</div>
 		<div class="banker-section clearfix" >

@@ -1,5 +1,5 @@
 @charset "UTF-8";
-.textOverflow, .banker-section .banker-list-rank, .banker-section .banker-list-name, .banker-section .banker-list-value, .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2, .table-section-center .table-stage-item-num {
+.textOverflow, .banker-section .banker-list-rank, .banker-section .banker-list-name, .banker-section .banker-list-value, .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2, .table-section-center .table-stage-item-num, .alert-prize-list .prize-list-name, .alert-prize-list .prize-list-prize {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
@@ -432,6 +432,46 @@ ul, li {
     background: url("../image/bottom-btn-active.png") no-repeat center;
     background-size: contain; }
 
+.alert-fail-title {
+  margin: 5px auto;
+  font-size: 36px;
+  color: #8e8d8d;
+  text-align: center; }
+
+.alert-fail-subtitle {
+  margin: 5px auto;
+  font-size: 28px;
+  color: #8e8d8d; }
+
+.alert-success-title {
+  margin: 5px auto;
+  font-size: 36px;
+  color: #ff1d96;
+  text-align: center; }
+
+.alert-success-subtitle {
+  margin: 5px auto;
+  font-size: 28px;
+  color: #ab5d30; }
+
+.prize-list-title {
+  margin: 10px auto; }
+
+.alert-prize-list {
+  font-size: 28px;
+  color: #ab5d30;
+  border-top: 2px solid  #dab697;
+  margin: 5px auto;
+  padding-top: 5px; }
+  .alert-prize-list .prize-list-name {
+    width: 244px;
+    display: inline-block; }
+  .alert-prize-list .prize-list-prize {
+    width: 244px;
+    display: inline-block; }
+  .alert-prize-list .prize-list-item {
+    line-height: 40px; }
+
 .alert-wrap {
   position: absolute;
   top: 0;
@@ -464,6 +504,7 @@ ul, li {
     color: #ab5d30;
     text-align: center; }
   .alert-main .alert-content {
+    position: relative;
     font-size: 34px;
     color: #3a3939;
     text-align: center;
@@ -474,4 +515,8 @@ ul, li {
     width: 615px;
     height: 559px;
     margin: 0 auto;
-    margin-top: 24px; }
+    margin-top: 24px;
+    overflow: auto; }
+
+.audio-section {
+  display: none; }

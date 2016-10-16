@@ -122,11 +122,14 @@ App.prototype = {
 	//轮盘旋转时间
 	loopTime: 1000,
 	loopFruitTimeout: null,
-	loopCircle: 5,
+	loopCircle: 2,
 
-	step1Time: 1,
-	step2Time: 10,
-	step3Time: 1,
+	step1Time: 2,
+	step2Time: 2,
+	step3Time: 13,
+	audioMap: {},
+
+
 	initWindow: function(){
 		this.windowRate = this.stageWidth / this.stageHeight; // 720 / 1280
 		this.window.height = $(window).height();
@@ -177,6 +180,22 @@ App.prototype = {
 			
 			}
 		});
+
+		Vue.directive('audio', {
+			//acceptStatement:true,
+			bind: function () {
+				
+			},
+			update: function (fn) {
+				//console.log(fn,this.el,this);
+				//this.el.play();
+				// fn.call(this.el);
+				self.audioMap[this.expression] = this.el;
+			},
+			unbind: function () {
+			
+			}
+		});
 	},
 	init: function(){
 		var self = this;
@@ -220,12 +239,14 @@ App.prototype = {
 					if(self.vmData.dataUserInfo.money - money < 0){
 						self.alert({
 							title: '提示',
-							content: '<p>余额不足</p>',
+							content: '<p style="margin:40px auto;">余额不足</p>',
 						});
 						self.vmData.currentKnife = 0;
 
 						return false;
 					}
+
+					self.vmData.dataUserInfo.isSound && self.playAudio("cut");;
 					self.vmData.currentFruit = item;
 					item.count += money ;//个人的
 					item.total += 1 ;//全部的次数
@@ -260,17 +281,42 @@ App.prototype = {
 				},
 				handlerRepeatBtn: function(){
 					var lastCut = self.vmData.lastCut;
+					var totalMoney = 0;
+					for(var i in lastCut){
+						totalMoney += lastCut[i].money * lastCut[i].times;
+					}
+					if(self.vmData.dataUserInfo.money < totalMoney){
+						self.alert({
+							title: '提示',
+							content: '<p>余额不足</p>',
+						});
+						self.vmData.currentKnife = 0;
+						return false;
+					}
 					for( var i in lastCut){
 						var cut = lastCut[i];
 						self.vm.handleCutFruit(self.vmData.dataTableStageList[cut.id]);
 					}
-					//self.vmData.currentCut = lastCut;
 				},
 				handlerCloseAlert: function(){
 					self.vmData.alertInfo.out = true;
-				}
+				},
+				handlerSwitchSound: function(){
+					if(true == self.vmData.dataUserInfo.isSound){
+						self.vmData.dataUserInfo.isSound = false;
+						self.audioMap["background"].pause();
+					} else {
+						self.vmData.dataUserInfo.isSound = true;
+						self.audioMap["background"].play();
+					}
+					
+
+				},
 			},
 		});
+
+		this.vm.handlerSwitchSound();
+		
 		this.process();
 	},
 	process: function(){
@@ -296,6 +342,7 @@ App.prototype = {
 	},
 	processStepReady : function(initTime){
 		var self = this;
+		this.vmData.alertInfo.out = true;
 		this.vmData.dataGameStatus.step = 1;
 		this.vmData.dataGameStatus.loopCircle = this.loopCircle;
 		this.timeCouting(initTime ? initTime : this.step1Time, function(){
@@ -314,21 +361,31 @@ App.prototype = {
 		var self = this;
 		this.vmData.dataGameStatus.step = 2;
 		this.timeCouting(initTime ? initTime : this.step2Time, function(){
-			
+			self.processStepPosting();
 		});
+		
+	},
+	processStepPosting : function(initTime){
+		var self = this;
+		this.vmData.dataGameStatus.step = 3;
 		var oldNo = this.vmData.dataLoopFruit.end;
 		var endNo = Math.floor((Math.random()* 22));
 		this.vmData.dataLoopFruit = {
 			no: oldNo,
 			id: 0,
 			end: endNo,
+			step: endNo + 22 * this.loopCircle - oldNo
 		};
 		console.log("start", oldNo, "end", endNo)
 		this.loopFruitList(true);
+
+		//倒计时
+		this.timeCouting(initTime ? initTime : this.step3Time, function(){
+			self.processStepReady(self.step1Time);
+		});
 	},
-	processStepPosting : function(initTime){
+	postResult: function(){
 		var self = this;
-		this.vmData.dataGameStatus.step = 3;
 		var costMoney = 0;
 		var earnMoney = 0;
 		for(var i in this.vmData.currentCut){
@@ -347,6 +404,7 @@ App.prototype = {
 			
 		}
 
+		
 		this.vmData.dataTableHistoryList.push(this.fruitData[self.vmData.dataLoopFruit.id]);
 		if(this.vmData.dataTableHistoryList.length > 10){
 			this.vmData.dataTableHistoryList.shift();
@@ -357,22 +415,68 @@ App.prototype = {
 		this.vmData.lastCut = Object.assign({}, this.vmData.currentCut);
 		this.vmData.currentCut = {};
 
-		this.timeCouting(initTime ? initTime : this.step3Time, function(){
-			self.processStepReady(self.step1Time);
-		});
+
+		var alertTitle = "恭喜您中奖";
+		// var earnMoney = 0;
+		// var costMoney = 2000;
+		var moneyRes = earnMoney - costMoney;
+
+		if(earnMoney == 0){
+			self.vmData.dataUserInfo.isSound && self.playAudio("lose" + Math.ceil(Math.random(0,1)));
+			alertTitle = '<h3 class="alert-fail-title">很遗憾,本轮未中奖</h3><p  class="alert-fail-subtitle">历练值'+ (moneyRes) +'</p>';
+		} else {
+			self.vmData.dataUserInfo.isSound && self.playAudio("win" + Math.ceil(Math.random(0,1)));
+			alertTitle = '<h3 class="alert-success-title">恭喜您中奖</h3><p  class="alert-success-subtitle">历练值 '+ (moneyRes >= 0? '+' + moneyRes : moneyRes) + '</p>';
+		}
+		var prizeList = '';
+		for(var i in [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7,8]){
+			prizeList += ''
+			+ 	'<li class="prize-list-item" >'
+			+ 		'<div class="prize-list-name" >瓦的福克斯的风景</div>'
+			+		'<div class="prize-list-prize" >92492340</div>'
+			+	'</li>';
+		}
+		this.alert({
+			title: "中奖提示",
+			content: '<div>' + alertTitle + '</div><div class="alert-prize-list">'
+			+ '<div class="prize-list-title" >'
+			+ 	'<div class="prize-list-name" >中奖人</div>'
+			+	'<div class="prize-list-prize" >历练值</div>'
+			+ '</div>'
+			+ '<ul>'
+			+ prizeList
+			+ '</ul>'
+			+ '</div>'
+		}, true);
+
+		
 	},
 	loopFruitList: function(init){
 		var self = this;
+		self.vmData.dataUserInfo.isSound && self.playAudio("turn");
+		console.log("loop total step", self.vmData.dataLoopFruit.step);
+		// 44
+		// 耗时 7s
+		var needTime = 6 * 1000;
+		var maxLoop = 22 * (this.loopCircle + 1);
+		// self.loopTime =  needTime / (maxLoop / 2) - this.vmData.dataLoopFruit.step * (needTime / ((maxLoop / 2)* maxLoop) );
+		// if(self.loopTime == 0){
+		// 	self.loopTime = 1;
+		// }
+		if(self.vmData.dataLoopFruit.step < 3){
+			self.loopTime = 500;
+		} else if(self.vmData.dataLoopFruit.step < 6){
+			self.loopTime = 400;
+		} else if(self.vmData.dataLoopFruit.step < 10){
+			self.loopTime = 300;
+		} else {
+			self.loopTime = 100;
+		} 
+		console.log(self.loopTime);
+		// if(this.vmData.dataGameStatus.loopCircle > 0){
+		// 	this.loopTime = 50;
+		// }
 
-		var v = self.vmData.dataGameStatus.timeout;
-		if(v == 0){
-			v= 1;
-		}
-		self.loopTime  = 50;//100 * 20 / v;
-		console.log("loop time", self.loopTime);
-		if(this.vmData.dataGameStatus.loopCircle > 0){
-			this.loopTime = 50;
-		}
 		this.loopFruitTimeout && clearTimeout(this.loopFruitTimeout);
 		this.loopFruitTimeout = setTimeout(function(){
 			if(init){
@@ -382,14 +486,22 @@ App.prototype = {
 				self.vmData.dataLoopFruit.id = currentLoopFruit.id;
 				//console.log(self.vmData.dataLoopFruit)
 			}
+
 			++ self.vmData.dataLoopFruit.no;
-			if(self.vmData.dataLoopFruit.no >= self.vmData.dataTableFruitList.length - 1){
+			-- self.vmData.dataLoopFruit.step;
+
+			if(self.vmData.dataLoopFruit.no > self.vmData.dataTableFruitList.length - 1){
 				self.vmData.dataLoopFruit.no = 0;
-				self.vmData.dataGameStatus.loopCircle --;
+				
 			}
-			if(self.vmData.dataGameStatus.loopCircle <=0 && self.vmData.dataLoopFruit.no == self.vmData.dataLoopFruit.end){
+
+			//self.audioMap["turn"].pause();
+			
+			if(self.vmData.dataLoopFruit.step == 0){
+				console.log('no',self.vmData.dataLoopFruit.no, 'end',self.vmData.dataLoopFruit.end);
 				self.vmData.dataLoopFruit.id = self.vmData.dataTableFruitList[self.vmData.dataLoopFruit.no].id;
-				self.processStepPosting(13 );
+				console.log("公布奖励", self.vmData.dataLoopFruit.id);
+				self.postResult();
 				return true;
 			}  
 
@@ -397,12 +509,26 @@ App.prototype = {
 
 		}, this.loopTime);
 	},
+	playAudio: function(type){
+		var src = this.audioMap[type].src;
+		var au = new Audio();
+		var $au = $(au);
+		au.autoplay = true;
+		au.src = src;
+		au.controls = false;
+		au.onended = function(){
+			$au.remove();
+		}
+		$(".audio-section").append($au);
+		//this.vm.el.
+	},
 	timeCouting: function(initNum,fn, processfn){
 		var self = this;
 		this.vmData.dataGameStatus.timeout = initNum;
+		this.vmData.dataGameStatus.datetime =(Date.now()/ 1000 + initNum); 
 		this.timer = clearInterval(this.timer);
 		this.timer = setInterval(function(){
-			self.vmData.dataGameStatus.timeout --;
+			self.vmData.dataGameStatus.timeout = Math.ceil(self.vmData.dataGameStatus.datetime - Date.now()/1000);
 			console.log("game time",self.vmData.dataGameStatus.timeout);
 			processfn && processfn();
 			if(self.vmData.dataGameStatus.timeout <= 0){
@@ -411,6 +537,10 @@ App.prototype = {
 			}
 		}, 1000);
 		
+	},
+	setInterval: function(time){
+		var _t = Date.now();
+		return _t - time;
 	},
 	bindUIEvent: function(){
 
@@ -556,6 +686,7 @@ App.prototype = {
 			id: 0,
 			no: -1,
 			end: 0,
+			step: 22 * 3,
 		}
 	}, 
 	alert: function(alertInfo, noautoclose){
