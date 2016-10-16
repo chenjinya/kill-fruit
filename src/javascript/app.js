@@ -526,14 +526,16 @@ App.prototype = {
 		var self = this;
 		this.vmData.dataGameStatus.timeout = initNum;
 		this.vmData.dataGameStatus.datetime =(Date.now()/ 1000 + initNum); 
-		this.timer = clearInterval(this.timer);
-		this.timer = setInterval(function(){
+		this.timer = clearTimeout(this.timer);
+		this.timer = setTimeout(function(){
 			self.vmData.dataGameStatus.timeout = Math.ceil(self.vmData.dataGameStatus.datetime - Date.now()/1000);
 			console.log("game time",self.vmData.dataGameStatus.timeout);
 			processfn && processfn();
 			if(self.vmData.dataGameStatus.timeout <= 0){
 				clearInterval(self.timer);
 				fn && fn();
+			} else {
+				self.timeCouting(self.vmData.dataGameStatus.timeout, fn, processfn);
 			}
 		}, 1000);
 		
