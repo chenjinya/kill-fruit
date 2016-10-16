@@ -122,10 +122,10 @@ App.prototype = {
 	//轮盘旋转时间
 	loopTime: 1000,
 	loopFruitTimeout: null,
-	loopCircle: 2,
+	loopCircle: 3,
 
 	step1Time: 2,
-	step2Time: 2,
+	step2Time: 10,
 	step3Time: 13,
 	audioMap: {},
 
@@ -246,7 +246,8 @@ App.prototype = {
 						return false;
 					}
 
-					self.vmData.dataUserInfo.isSound && self.playAudio("cut");;
+					self.vmData.dataUserInfo.isSound && self.soundPlayCut();
+
 					self.vmData.currentFruit = item;
 					item.count += money ;//个人的
 					item.total += 1 ;//全部的次数
@@ -290,7 +291,7 @@ App.prototype = {
 							title: '提示',
 							content: '<p>余额不足</p>',
 						});
-						self.vmData.currentKnife = 0;
+						//self.vmData.currentKnife = 0;
 						return false;
 					}
 					for( var i in lastCut){
@@ -304,10 +305,10 @@ App.prototype = {
 				handlerSwitchSound: function(){
 					if(true == self.vmData.dataUserInfo.isSound){
 						self.vmData.dataUserInfo.isSound = false;
-						self.audioMap["background"].pause();
+						self.soundPlayBackground(false);
 					} else {
 						self.vmData.dataUserInfo.isSound = true;
-						self.audioMap["background"].play();
+						self.soundPlayBackground(true);
 					}
 					
 
@@ -422,10 +423,10 @@ App.prototype = {
 		var moneyRes = earnMoney - costMoney;
 
 		if(earnMoney == 0){
-			self.vmData.dataUserInfo.isSound && self.playAudio("lose" + Math.ceil(Math.random(0,2)));
+			self.vmData.dataUserInfo.isSound && self.soundPlayLose();
 			alertTitle = '<h3 class="alert-fail-title">很遗憾,本轮未中奖</h3><p  class="alert-fail-subtitle">历练值'+ (moneyRes) +'</p>';
 		} else {
-			self.vmData.dataUserInfo.isSound && self.playAudio("win" + Math.ceil(Math.random(0,2)));
+			self.vmData.dataUserInfo.isSound && self.soundPlayWin();
 			alertTitle = '<h3 class="alert-success-title">恭喜您中奖</h3><p  class="alert-success-subtitle">历练值 '+ (moneyRes >= 0? '+' + moneyRes : moneyRes) + '</p>';
 		}
 		var prizeList = '';
@@ -453,7 +454,7 @@ App.prototype = {
 	},
 	loopFruitList: function(init){
 		var self = this;
-		self.vmData.dataUserInfo.isSound && self.playAudio("turn");
+		self.vmData.dataUserInfo.isSound && self.soundPlayTurn();
 		console.log("loop total step", self.vmData.dataLoopFruit.step);
 		// 44
 		// 耗时 7s
@@ -469,8 +470,10 @@ App.prototype = {
 			self.loopTime = 400;
 		} else if(self.vmData.dataLoopFruit.step < 10){
 			self.loopTime = 300;
-		} else {
+		} else if(self.vmData.dataLoopFruit.step < 20){
 			self.loopTime = 100;
+		}else {
+			self.loopTime = 50;
 		} 
 		console.log(self.loopTime);
 		// if(this.vmData.dataGameStatus.loopCircle > 0){
@@ -532,17 +535,13 @@ App.prototype = {
 			console.log("game time",self.vmData.dataGameStatus.timeout);
 			processfn && processfn();
 			if(self.vmData.dataGameStatus.timeout <= 0){
-				clearInterval(self.timer);
+				clearTimeout(self.timer);
 				fn && fn();
 			} else {
 				self.timeCouting(self.vmData.dataGameStatus.timeout, fn, processfn);
 			}
 		}, 1000);
 		
-	},
-	setInterval: function(time){
-		var _t = Date.now();
-		return _t - time;
 	},
 	bindUIEvent: function(){
 
@@ -707,6 +706,35 @@ App.prototype = {
 			}, 2000);
 		}
 		
+	},
+	soundPlayBackground: function(play){
+		if(play){
+			$(".audio-section-common").find(".audio-background")[0].play();
+		} else {
+			$(".audio-section-common").find(".audio-background")[0].pause();
+		}
+	},
+	soundPlayWin: function(){
+		$(".audio-section-common").find(".audio-win" + Math.ceil(Math.random() *2 ))[0].play();
+	},
+	soundPlayLose: function(){
+		$(".audio-section-common").find(".audio-lose" + Math.ceil(Math.random() *2 ))[0].play();
+	},
+	soundPlayTurnLoopNum: 0,
+	soundPlayTurn: function(){
+		$(".audio-section-turn").find("audio").eq(this.soundPlayTurnLoopNum)[0].play();
+		this.soundPlayTurnLoopNum ++;
+		if(this.soundPlayTurnLoopNum >= 5){
+			this.soundPlayTurnLoopNum = 0;
+		}
+	},
+	soundPlayCutLoopNum: 0,
+	soundPlayCut: function(){
+		$(".audio-section-cut").find("audio").eq(this.soundPlayCutLoopNum)[0].play();
+		this.soundPlayCutLoopNum ++;
+		if(this.soundPlayCutLoopNum >= 5){
+			this.soundPlayCutLoopNum = 0;
+		}
 	}
 
 }
