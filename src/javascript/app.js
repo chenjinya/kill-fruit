@@ -313,6 +313,14 @@ App.prototype = {
 					
 
 				},
+				handlerBottomBtn: function(item){
+					if(item == self.vmData.dataBottomActive){
+						self.vmData.dataBottomActive = 0;
+					} else {
+						self.vmData.dataBottomActive = item;
+					}
+					
+				}
 			},
 		});
 
@@ -688,7 +696,8 @@ App.prototype = {
 			no: -1,
 			end: 0,
 			step: 22 * 3,
-		}
+		};
+		this.vmData.dataBottomActive =0;
 	}, 
 	alert: function(alertInfo, noautoclose){
 		var self = this;
@@ -722,20 +731,42 @@ App.prototype = {
 	},
 	soundPlayTurnLoopNum: 0,
 	soundPlayTurn: function(){
-		$(".audio-section-turn").find("audio").eq(this.soundPlayTurnLoopNum)[0].play();
+		var audios = $(".audio-section-turn").find("audio");
+		audios.eq(this.soundPlayTurnLoopNum)[0].play();
 		this.soundPlayTurnLoopNum ++;
-		if(this.soundPlayTurnLoopNum >= 5){
+		if(this.soundPlayTurnLoopNum >= audios.length){
 			this.soundPlayTurnLoopNum = 0;
 		}
 	},
 	soundPlayCutLoopNum: 0,
 	soundPlayCut: function(){
-		$(".audio-section-cut").find("audio").eq(this.soundPlayCutLoopNum)[0].play();
+		var audios = $(".audio-section-cut").find("audio");
+		audios.eq(this.soundPlayCutLoopNum)[0].play();
 		this.soundPlayCutLoopNum ++;
-		if(this.soundPlayCutLoopNum >= 5){
+		if(this.soundPlayCutLoopNum >= audios.length){
 			this.soundPlayCutLoopNum = 0;
+		}
+	},
+	socket: {
+		onMessage: function(data){
+
+		},
+		send: function(data){
+			if($.os.iphone){
+				window.send(JSON.stringify(data));
+			} else if($.os.android){
+				window.fruitAndroid.send(JSON.stringify(data));
+			}
 		}
 	}
 
 }
 var app = new App();
+
+if($.os.iphone){
+	window.onMessage = function(data){
+        console.log("recieve", JSON.stringify(data));
+        app.socket.onMessage(data);
+    }
+
+}

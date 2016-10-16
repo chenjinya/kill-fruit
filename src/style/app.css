@@ -41,7 +41,8 @@ button {
 
 ul, li {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  list-style: none; }
 
 .clearfix:after {
   content: " ";
@@ -419,16 +420,20 @@ ul, li {
   width: 690px;
   height: 102px;
   margin: 0 auto;
-  margin-top: 16px; }
+  margin-top: 16px;
+  position: relative;
+  z-index: 2; }
   .bottom-section .bottom-btn {
+    position: relative;
     width: 220px;
     height: 90px;
     font-size: 32px;
     color: #FFF;
-    margin-right: 6px;
+    margin-left: 6px;
     background: url("../image/bottom-btn.png") no-repeat center;
     background-size: contain; }
   .bottom-section .active {
+    top: -6px;
     background: url("../image/bottom-btn-active.png") no-repeat center;
     background-size: contain; }
 
@@ -520,3 +525,87 @@ ul, li {
 
 .audio-section {
   display: none; }
+
+.bottom-alert {
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
+  background: #e0bf9c;
+  box-shadow: inset 0px -1px 2px 5px rgba(255, 255, 255, 0.4);
+  border-radius: 30px;
+  padding: 0px;
+  padding-bottom: 100px;
+  width: 690px;
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1; }
+
+.bottom-alert-content {
+  background: #ffe3c5;
+  border: 1px solid #ab5d30;
+  box-shadow: inset 0px 0px 2px 4px #6d3313;
+  border-radius: 19px;
+  width: 668px;
+  height: 613px;
+  margin: 10px;
+  overflow: auto; }
+
+.bottom-alert-info {
+  padding: 28px; }
+  .bottom-alert-info h3 {
+    font-size: 32px;
+    color: #723714;
+    margin: 15px; }
+  .bottom-alert-info p {
+    font-size: 20px;
+    color: #723714;
+    text-indent: 2em;
+    margin: 5px; }
+  .bottom-alert-info-tools p {
+    display: inline-block;
+    width: 180px;
+    margin: 3px;
+    text-align: left; }
+  .bottom-alert-info table {
+    margin-left: 50px;
+    width: 520px;
+    border: 1px solid #723714;
+    text-align: center; }
+    .bottom-alert-info table th {
+      background: #eee;
+      padding: 10px 20px;
+      border: 1px solid #723714; }
+    .bottom-alert-info table td {
+      padding: 10px 20px;
+      border: 1px solid #723714; }
+  .bottom-alert-info .rank-nav {
+    text-align: center; }
+    .bottom-alert-info .rank-nav a {
+      font-size: 28px;
+      color: #FFF; }
+    .bottom-alert-info .rank-nav a.active {
+      color: #ab5d30;
+      text-decoration: underline; }
+  .bottom-alert-info .rank-list li span {
+    display: inline-block;
+    text-align: left; }
+  .bottom-alert-info .rank-list .rank-no {
+    width: 50px;
+    text-align: center;
+    font-size: 28px;
+    color: #ab5d30; }
+  .bottom-alert-info .rank-list .rank-avatar {
+    width: 70px;
+    border-radius: 50%; }
+  .bottom-alert-info .rank-list .rank-name {
+    width: 260px;
+    font-size: 26px;
+    color: #3f3f3f; }
+  .bottom-alert-info .rank-list .rank-level {
+    width: 55px; }
+  .bottom-alert-info .rank-list .rank-money {
+    width: 145px;
+    font-size: 24px;
+    color: #ab5d30; }
