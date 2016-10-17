@@ -1,5 +1,56 @@
 var App = function(){
-	this.init();
+	var self = this;
+	var resource = {
+		preload: [
+			"./image/background.png",
+			"./image/banker-bg.png",
+			"./image/banker-text.png",
+			"./image/banker-up-btn.png",
+			"./image/bottom-btn-active.png",
+			"./image/bottom-btn.png",
+			"./image/exchange-coin-btn.png",
+			//"./image/fruit",
+			"./image/fruit-active-bg.png",
+			"./image/fruit-bg.png",
+			"./image/history-bg.png",
+			"./image/history-left-btn.png",
+			"./image/history-right-btn.png",
+			"./image/knife-1.png",
+			"./image/knife-2.png",
+			"./image/knife-3.png",
+			"./image/knife-4.png",
+			"./image/knife-5.png",
+			"./image/knife-bg.png",
+			"./image/knife-select-bg.png",
+			"./image/ren1.gif",
+			"./image/ren2.gif",
+			"./image/ren3.png",
+			"./image/renshadow.gif",
+			"./image/repeat-action-btn-disable.png",
+			"./image/repeat-action-btn.png",
+			"./image/ret-btn.png",
+			"./image/sound-btn.png",
+			"./image/sound-close-btn.png",
+			"./image/table-bg.png",
+			"./image/table-stage-item-bg.png",
+		]
+	}
+	this.loading(resource,function(i,t){
+		console.log(i,t);
+		var $l = $(".loading");
+		$l.find(".loading-bar").animate({
+			width: (i/t * 200) + "px",
+		});
+		$l.find(".loading-text").html("加载中...("+ (i/t * 100).toFixed(0) +"%)")
+	},function(){
+		setTimeout(function(){
+			$(".loading").remove();
+			$(".stage").show();
+			self.init();
+		},500);
+		
+	})
+	
 };
 App.prototype = {
 	window: {
@@ -165,6 +216,9 @@ App.prototype = {
             } else {
                 needLoadResource.splice(it, 1);
             }
+        }
+        if(resource.length == 0){
+        	fn && fn();
         }
         setTimeout(function(){
             for(var i in resource){
@@ -872,12 +926,16 @@ App.prototype = {
 	}
 
 }
-var app = new App();
 
-if($.os.iphone){
-	window.onMessage = function(data){
-        console.log("recieve", JSON.stringify(data));
-        app.socket.onMessage(data);
-    }
+$(document).ready(function(){
+	var app = new App();
 
-}
+	if($.os.iphone){
+		window.onMessage = function(data){
+	        console.log("recieve", JSON.stringify(data));
+	        app.socket.onMessage(data);
+	    }
+
+	}
+})
+
