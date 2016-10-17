@@ -435,7 +435,7 @@ App.prototype = {
 				return true;
 			}
 		}
-		
+		this.vmData.dataUserInfo.isSound && $(".audio-section-common").find(".audio-background")[0].play();
 		var step = 1;
 		var time = 0;
 		switch(step){
