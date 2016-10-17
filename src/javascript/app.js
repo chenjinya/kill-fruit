@@ -10,6 +10,9 @@ App.prototype = {
 	stageHeight: 1230,
 	scale : 1,
 
+	vm: null,
+	vmData: {},
+
 	//轮盘水果数据
 	fruitList: [
 		4,
@@ -120,16 +123,102 @@ App.prototype = {
 
 
 	//轮盘旋转时间
-	loopTime: 1000,
+	loopTime: 100,
 	loopFruitTimeout: null,
-	loopCircle: 3,
+	loopCircle: 2,
 
 	step1Time: 2,
 	step2Time: 10,
 	step3Time: 13,
 	audioMap: {},
+	systemStatusSync: 0,
+	backstage: false,
 
+	/*
+     * @resource {Array}
+     * @procFn {Function} load one function
+     * @fn      {Function} done function
+     */
+    loading: function(resource, procFn, fn){
+        var map = {};
+        var resourceIndex = 0;
+        var resourceCount = 0;
+        var needLoadResource = [];
+        var noLoadResource = [];
+        if(resource){
+            needLoadResource = resource['preload'] ? resource['preload'] : [];
+            noLoadResource = resource['noload'] ? resource['noload'] : [];
+        }
+        var resource = needLoadResource;
+        var loadingResource = $("[pre-src]");
+        loadingResource.each(function(index,that){
+            var item = $(that);
+            resource.push(item.attr("pre-src"));
+        });
+        //console.log(resource);
+        for(var i in noLoadResource){
+            var url = noLoadResource[i];
+            var it = needLoadResource.indexOf(url);
+           // console.log(url,it);
+            if(-1 == it) {
+                continue;
+            } else {
+                needLoadResource.splice(it, 1);
+            }
+        }
+        setTimeout(function(){
+            for(var i in resource){
+                var item = resource[i];
+                map[i] = {
+                    status: 0,
+                };
+                resourceCount ++;
 
+                var op = {
+                    type: 'image',
+                    src: '',
+                }
+                if(typeof item == "string"){
+                    op.src = item;
+                } else {
+                    op = item;
+                }
+
+                op.type = op.type? op.type : 'image';
+                if(op.type == 'image'){
+                    var img = new Image();
+                    img.src = op.src;
+                    img.onload= (function(_i, _img){
+                       
+                        return function(e){
+                            //console.log(arguments)
+                             resourceIndex ++;
+                            //console.log(resourceIndex, resourceCount);
+                            procFn && procFn(resourceIndex, resourceCount);
+                            map[_i].status= 1;
+
+                            var done = false;
+                            for(var mpi in map){
+                                if(map[mpi].status == 0) {
+                                    return true
+                                }
+                            }
+                            loadingResource.each(function(index,that){
+                                var item = $(that);
+                                item.attr("src", item.attr("pre-src"))
+                            });
+                          
+                            //load done
+                            console.log('Resource load done');
+                            fn && fn();
+                        }
+                    })(i,img)
+                }
+            }
+        },1);
+        
+        
+    },
 	initWindow: function(){
 		this.windowRate = this.stageWidth / this.stageHeight; // 720 / 1280
 		this.window.height = $(window).height();
@@ -158,7 +247,7 @@ App.prototype = {
 			height: height + "px",
 		});
 	},
-	initVuePlugin: function(){
+	initVue: function(){
 		var self = this;
 		//add a tap. to fast touched action
 		Vue.directive('tap', {
@@ -181,27 +270,6 @@ App.prototype = {
 			}
 		});
 
-		Vue.directive('audio', {
-			//acceptStatement:true,
-			bind: function () {
-				
-			},
-			update: function (fn) {
-				//console.log(fn,this.el,this);
-				//this.el.play();
-				// fn.call(this.el);
-				self.audioMap[this.expression] = this.el;
-			},
-			unbind: function () {
-			
-			}
-		});
-	},
-	init: function(){
-		var self = this;
-		this.initWindow();
-		this.initData();
-		this.initVuePlugin();
 		this.vm = new Vue({
 			el: ".app",
 			data: this.vmData,
@@ -323,13 +391,51 @@ App.prototype = {
 				}
 			},
 		});
+	
+	},
+	//check system is runing ?
+	//系统守护进程，处理切后台策略（pc)
+	updateSystemStatusSync: function(){
+		var self = this;
+		var n = Date.now();
+		console.log("backstage", this.backstage)
+		if(n - this.systemStatusSync >= 1000 && this.systemStatusSync !=0){
+			this.backstage = true;
+			//return false;
+		} else {
+			this.process('restart');
+			this.backstage = false;
+			
+		}
+		this.systemStatusSync = Date.now();
+		//self.soundPlayTurn();
+		setTimeout(function(){
+			self.updateSystemStatusSync();
+		}, 500);
+	},
+	init: function(){
+		var self = this;
+		this.initWindow();
+		this.initTableData();
+		this.initLoadData();
+		this.initActionData();
+		this.initVue();
 
 		this.vm.handlerSwitchSound();
-		
-		this.process();
+
+		this.updateSystemStatusSync();
+		this.process('start');
 	},
-	process: function(){
+	process: function(go){
 		//get no status
+		if(go == 'start'){
+			//normal
+		} else if(go == 'restart'){
+			if(this.backstage == false){
+				return true;
+			}
+		}
+		
 		var step = 1;
 		var time = 0;
 		switch(step){
@@ -351,12 +457,14 @@ App.prototype = {
 	},
 	processStepReady : function(initTime){
 		var self = this;
+		this.initActionData();
 		this.vmData.alertInfo.out = true;
 		this.vmData.dataGameStatus.step = 1;
-		this.vmData.dataGameStatus.loopCircle = this.loopCircle;
+
 		this.timeCouting(initTime ? initTime : this.step1Time, function(){
 			self.processStepCuting(self.step2Time);
 		});
+		//初始化
 		this.vmData.dataLoopFruit.no = -1;
 		for( var i in this.vmData.dataTableStageList){
 			this.vmData.dataTableStageList[i].count = 0;
@@ -364,8 +472,6 @@ App.prototype = {
 		}
 	},
 	processStepCuting : function(initTime){
-		
-
 		console.log(this.vmData.currentCut);
 		var self = this;
 		this.vmData.dataGameStatus.step = 2;
@@ -385,11 +491,10 @@ App.prototype = {
 			end: endNo,
 			step: endNo + 22 * this.loopCircle - oldNo
 		};
-		console.log("start", oldNo, "end", endNo)
+		console.log("start", oldNo, "end", endNo, "step", this.vmData.dataLoopFruit.step)
 		setTimeout(function(){
 			self.loopFruitList(true);
 		}, 1);
-		
 
 		//倒计时
 		this.timeCouting(initTime ? initTime : this.step3Time, function(){
@@ -466,6 +571,7 @@ App.prototype = {
 	loopFruitList: function(init){
 		if(this.vmData.dataGameStatus.step != 3){
 			this.loopFruitTimeout && clearTimeout(this.loopFruitTimeout);
+			this.vmData.dataLoopFruit.no = -1;
 			return false;
 		}
 		var self = this;
@@ -479,6 +585,10 @@ App.prototype = {
 		// if(self.loopTime == 0){
 		// 	self.loopTime = 1;
 		// }
+		// if(this.vmData.dataGameStatus.loopCircle > 0){
+		// 	this.loopTime = 50;
+		// }
+
 		if(self.vmData.dataLoopFruit.step < 3){
 			self.loopTime = 500;
 		} else if(self.vmData.dataLoopFruit.step < 6){
@@ -486,15 +596,12 @@ App.prototype = {
 		} else if(self.vmData.dataLoopFruit.step < 10){
 			self.loopTime = 300;
 		} else if(self.vmData.dataLoopFruit.step < 20){
-			self.loopTime = 100;
+			self.loopTime = 200;
 		}else {
-			self.loopTime = 50;
+			self.loopTime = 100;
 		} 
-		console.log(self.loopTime);
-		// if(this.vmData.dataGameStatus.loopCircle > 0){
-		// 	this.loopTime = 50;
-		// }
-
+		var thisLoopTime= self.loopTime;
+		
 		this.loopFruitTimeout && clearTimeout(this.loopFruitTimeout);
 		this.loopFruitTimeout = setTimeout(function(){
 			if(init){
@@ -525,7 +632,7 @@ App.prototype = {
 
 			self.loopFruitList();
 
-		}, this.loopTime);
+		}, thisLoopTime);
 	},
 	playAudio: function(type){
 		var src = this.audioMap[type].src;
@@ -558,11 +665,7 @@ App.prototype = {
 		}, 1000);
 		
 	},
-	bindUIEvent: function(){
-
-	},
-	initData: function(){
-
+	initTableData: function(){
 		var fruitData = this.fruitData;
 		this.vmData = {};
 		this.vmData.dataTableFruitList = [];
@@ -647,11 +750,8 @@ App.prototype = {
 		}
 
 		this.vmData.dataTableHistoryList = [];
-		// for( var i in [1,4,3,5,7,5,3,4,2,8,7,6 ]){
-		// 	var index = [1,4,3,5,7,5,3,4,2,8,7,6 ][i];
-		// 	this.vmData.dataTableHistoryList.push(this.fruitData[index]);
-		// }
-		
+	},
+	initLoadData: function(){
 		this.vmData.dataBankerList = [
 			{
 				name: "花生与米国",
@@ -674,8 +774,7 @@ App.prototype = {
 
 		this.vmData.dataGameStatus = {
 			timeout: 10,
-			step: 2, // 1 准备， 2， 切水果，3，公布
-			loopCircle: 3,
+			step: 1, // 1 准备， 2， 切水果，3，公布
 		}
 		this.vmData.dataUserInfo = {
 			isSound: false,
@@ -684,6 +783,9 @@ App.prototype = {
 			diffMoney: 0,
 			
 		}
+	},
+	initActionData: function(){
+		
 		this.vmData.currentKnife = 0;
 		this.vmData.currentFruit = {};
 		this.vmData.currentCut = {};
@@ -741,6 +843,7 @@ App.prototype = {
 		var audios = $(".audio-section-turn").find("audio");
 		audios.eq(this.soundPlayTurnLoopNum)[0].play();
 		this.soundPlayTurnLoopNum ++;
+		console.log("soundPlayTurnLoopNum",this.soundPlayTurnLoopNum)
 		if(this.soundPlayTurnLoopNum >= audios.length){
 			this.soundPlayTurnLoopNum = 0;
 		}
@@ -762,6 +865,7 @@ App.prototype = {
 			if($.os.iphone){
 				window.send(JSON.stringify(data));
 			} else if($.os.android){
+				window.fruitAndroid = {};
 				window.fruitAndroid.send(JSON.stringify(data));
 			}
 		}
