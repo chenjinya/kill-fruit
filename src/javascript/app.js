@@ -853,10 +853,10 @@ App.prototype = {
 		}
 
 		this.vmData.dataTableHistoryList = [];
-		for( var i in [1,2,3,4,5,6,7,8,3,4]){
-			var j = [1,2,3,4,5,6,7,8,3,4][i];
-			this.vmData.dataTableHistoryList.push(this.fruitData[j]);
-		}
+		// for( var i in [1,2,3,4,5,6,7,8,3,4]){
+		// 	var j = [1,2,3,4,5,6,7,8,3,4][i];
+		// 	this.vmData.dataTableHistoryList.push(this.fruitData[j]);
+		// }
 		
 		this.vmData.currentKnife = 0;
 	},
