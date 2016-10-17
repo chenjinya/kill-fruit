@@ -9,7 +9,14 @@ var App = function(){
 			"./image/bottom-btn-active.png",
 			"./image/bottom-btn.png",
 			"./image/exchange-coin-btn.png",
-			//"./image/fruit",
+			"./image/fruit/apple-l.png",
+			"./image/fruit/apple-x.png",
+			"./image/fruit/banana-l.png",
+			"./image/fruit/banana-x.png",
+			"./image/fruit/grap-l.png",
+			"./image/fruit/grap-x.png",
+			"./image/fruit/watermelon-l.png",
+			"./image/fruit/watermelon-x.png",
 			"./image/fruit-active-bg.png",
 			"./image/fruit-bg.png",
 			"./image/history-bg.png",
@@ -36,7 +43,7 @@ var App = function(){
 		]
 	}
 	this.loading(resource,function(i,t){
-		console.log(i,t);
+		//console.log(i,t);
 		var $l = $(".loading");
 		$l.find(".loading-bar").animate({
 			width: (i/t * 200) + "px",
@@ -439,7 +446,10 @@ App.prototype = {
 					}
 				},
 				handlerCloseAlert: function(){
-					self.vmData.alertInfo.out = true;
+					if(!self.vmData.alertInfo.notClose){
+						self.vmData.alertInfo.out = true;
+					}
+					
 				},
 				handlerSwitchSound: function(){
 					if(true == self.vmData.dataUserInfo.isSound){
@@ -463,6 +473,20 @@ App.prototype = {
 				handlerBottomRankNav: function(type){
 					console.log(type);
 					self.vmData.dataRankInfo.active = parseInt(type);
+				}, 
+				handlerHistoryListBtn: function(btnNo){
+					if(btnNo == 1){
+						self.vmData.dataHistoryListBtn = 2;
+						$(".history-list-main").animate({
+							translateX: 0,
+						})
+					} else {
+						self.vmData.dataHistoryListBtn = 1;
+						$(".history-list-main").animate({
+							translateX: -(20 / self.scale) + "px",
+						})
+					}
+					
 				}
 			},
 		});
@@ -473,7 +497,7 @@ App.prototype = {
 	updateSystemStatusSync: function(){
 		var self = this;
 		var n = Date.now();
-		console.log("backstage", this.backstage)
+		//console.log("backstage", this.backstage)
 		if(n - this.systemStatusSync >= 1000 && this.systemStatusSync !=0){
 			this.backstage = true;
 			//return false;
@@ -495,9 +519,10 @@ App.prototype = {
 		this.initLoadData();
 		this.initActionData();
 		this.initVue();
-
+		this.touchScroll();
 		this.vm.handlerSwitchSound();
-
+		// self.postResult();
+		// self.vmData.alertInfo.out = false;
 		this.updateSystemStatusSync();
 		this.process('start');
 	},
@@ -601,6 +626,9 @@ App.prototype = {
 		if(this.vmData.dataTableHistoryList.length > 10){
 			this.vmData.dataTableHistoryList.shift();
 		}
+		if(this.vmData.dataTableHistoryList.length > 9){
+			this.vmData.dataHistoryListBtn = 2;
+		}
 		//this.vmData.dataUserInfo.money -= costMoney;
 		this.vmData.dataUserInfo.diffMoney -= costMoney;
 
@@ -624,13 +652,13 @@ App.prototype = {
 		for(var i in [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7,8]){
 			prizeList += ''
 			+ 	'<li class="prize-list-item" >'
-			+ 		'<div class="prize-list-name" >瓦的福克斯的风景</div>'
-			+		'<div class="prize-list-prize" >92492340</div>'
+			+ 		'<div class="prize-list-name" >'+i+'瓦的福克斯的风景</div>'
+			+		'<div class="prize-list-prize" >9249234'+i+'</div>'
 			+	'</li>';
 		}
 		this.alert({
 			title: "中奖提示",
-			content: '<div>' + alertTitle + '</div><div class="alert-prize-list">'
+			content: '<div  >' + alertTitle + '</div><div class="alert-prize-list">'
 			+ '<div class="prize-list-title" >'
 			+ 	'<div class="prize-list-name" >中奖人</div>'
 			+	'<div class="prize-list-prize" >历练值</div>'
@@ -639,7 +667,7 @@ App.prototype = {
 			+ prizeList
 			+ '</ul>'
 			+ '</div>'
-		}, true);
+		}, true, true);
 
 		
 	},
@@ -651,7 +679,7 @@ App.prototype = {
 		}
 		var self = this;
 		self.vmData.dataUserInfo.isSound && self.soundPlayTurn();
-		console.log("loop total step", self.vmData.dataLoopFruit.step);
+		//console.log("loop total step", self.vmData.dataLoopFruit.step);
 		// 44
 		// 耗时 7s
 		var needTime = 6 * 1000;
@@ -671,9 +699,9 @@ App.prototype = {
 		} else if(self.vmData.dataLoopFruit.step < 10){
 			self.loopTime = 300;
 		} else if(self.vmData.dataLoopFruit.step < 20){
-			self.loopTime = 200;
-		}else {
 			self.loopTime = 100;
+		}else {
+			self.loopTime = 80;
 		} 
 		var thisLoopTime= self.loopTime;
 		
@@ -729,7 +757,7 @@ App.prototype = {
 		this.timer = clearTimeout(this.timer);
 		this.timer = setTimeout(function(){
 			self.vmData.dataGameStatus.timeout = Math.ceil(self.vmData.dataGameStatus.datetime - Date.now()/1000);
-			console.log("game time",self.vmData.dataGameStatus.timeout);
+			//console.log("game time",self.vmData.dataGameStatus.timeout);
 			processfn && processfn();
 			if(self.vmData.dataGameStatus.timeout <= 0){
 				clearTimeout(self.timer);
@@ -825,6 +853,11 @@ App.prototype = {
 		}
 
 		this.vmData.dataTableHistoryList = [];
+		for( var i in [1,2,3,4,5,6,7,8,3,4]){
+			var j = [1,2,3,4,5,6,7,8,3,4][i];
+			this.vmData.dataTableHistoryList.push(this.fruitData[j]);
+		}
+		
 		this.vmData.currentKnife = 0;
 	},
 	initLoadData: function(){
@@ -861,6 +894,36 @@ App.prototype = {
 					name: "哇哈哈胜过白开水2",
 					level: 27,
 					money: 629329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
 				},
 				{
 					avatar: './image/avatar.jpg',
@@ -911,6 +974,7 @@ App.prototype = {
 			diffMoney: 0,
 			
 		}
+		this.vmData.dataHistoryListBtn = 0;
 	},
 	initActionData: function(){
 		
@@ -935,10 +999,12 @@ App.prototype = {
 			step: 22 * 3,
 		};
 		
+		
 	}, 
-	alert: function(alertInfo, noautoclose){
+	alert: function(alertInfo, noautoclose, cloasebale){
 		var self = this;
 		alertInfo.out = false;
+		alertInfo.notClose = cloasebale;
 		if(!alertInfo.title){
 			alertInfo.title = "提示";
 		}
@@ -971,7 +1037,7 @@ App.prototype = {
 		var audios = $(".audio-section-turn").find("audio");
 		audios.eq(this.soundPlayTurnLoopNum)[0].play();
 		this.soundPlayTurnLoopNum ++;
-		console.log("soundPlayTurnLoopNum",this.soundPlayTurnLoopNum)
+		//console.log("soundPlayTurnLoopNum",this.soundPlayTurnLoopNum)
 		if(this.soundPlayTurnLoopNum >= audios.length){
 			this.soundPlayTurnLoopNum = 0;
 		}
@@ -986,17 +1052,102 @@ App.prototype = {
 		}
 	},
 	touchScroll: function(){
+		var self = this;
 		var scrollTop = 0;
 		var scrollStart = 0;
-		$("[touch-scroll]").on("touchstart", function(){
-			scrollStart = e.changedTouches[0].clientY;
-		}).on("touchmove", function(){
-			scrollTop = e.changedTouches[0].clientY - scrollStart;
-			if(scrollTop > 0){
-				$(this).css({
-					top: scrollTop,
-				})
+		var scrollPre = 0;
+		var scrollDre = 0;
+		var scrollStep = 10;
+		$("[touch-scroll]").on("touchstart", function(e){
+			var transform = $(this).css("transform");
+			if(!transform || transform == 'none'){
+				scrollTop = 0;
 			}
+			var match ;
+			if($(this).attr("scroll-y")){
+				match = transform.match(/translateY\(([0-9]+)px\)/i);
+				if(match){
+					scrollTop = match[1];
+					console.log(scrollTop)
+				} else {
+					scrollTop = 0;
+				}
+			} else {
+				match = transform.match(/translateX\(([0-9]+)px\)/i);
+				if(match){
+					scrollTop = match[1];
+					console.log(scrollTop)
+				} else {
+					scrollTop = 0;
+				}
+			}
+			
+		}).on("touchmove", function(e){
+			if($(this).attr("scroll-y")){
+				scrollDre = e.changedTouches[0].clientY - scrollPre;
+				scrollStep = 10;
+			} else {
+				scrollDre = e.changedTouches[0].clientX - scrollPre;
+				scrollStep = 5;
+			}
+			console.log(scrollDre);
+			if(scrollDre > 0){
+				//return false;
+				scrollTop += scrollStep;
+			} else {
+				//scrollTop = scrollStart ;
+				scrollTop -= scrollStep;
+			}
+			
+			// scrollTop = e.changedTouches[0].clientY - scrollPre + scrollStart;
+			// scrollTop = (scrollTop / self.scale);
+			var diff = 0;
+			var $this = $(this),innerHeight = 0, outerHeight = 0;
+			if($(this).attr("scroll-y")){
+				innerHeight = $this.height();
+			 	outerHeight = $this.parent().height();
+			} else {
+				innerHeight = $this.width();
+			 	outerHeight = $this.parent().width();
+			}
+			
+			console.log(outerHeight, innerHeight,scrollTop );
+			if(outerHeight >= innerHeight){
+				return false;
+			} else {
+				diff =  innerHeight - outerHeight;
+			}
+
+			if(scrollTop >= scrollStep + 1){
+				// $(this).css({
+				// 	transform: "translateY(" + scrollTop + "px)",
+				// })
+			} else {
+				if(scrollTop >= - diff){
+					if($(this).attr("scroll-y")){
+						// $(this).css({
+						// 	transform: "translateY(" + (scrollTop/ self.scale) + "px)",
+						// });
+						$(this).animate({
+							translateY: (scrollTop/ self.scale) + "px",
+						});
+					} else {
+						$(this).animate({
+							translateX: (scrollTop/ self.scale) + "px",
+						});
+					}
+					
+				}
+				
+			}
+			if($(this).attr("scroll-y")){
+				scrollPre = e.changedTouches[0].clientY;
+			}else {
+				scrollPre = e.changedTouches[0].clientX;
+			}
+			
+		}).on("touchend", function(e){
+			//scrollStart = e.changedTouches[0].clientY;
 		});
 
 	},
@@ -1017,7 +1168,7 @@ App.prototype = {
 }
 
 $(document).ready(function(){
-	var app = new App();
+	window.app = new App();
 
 	if($.os.iphone){
 		window.onMessage = function(data){

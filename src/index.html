@@ -38,6 +38,7 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffec971f', GradientType=0);
     	background-repeat: repeat-x;
     	height: 20px;
+    	width: 1px;
 	}
 	.loading .loading-text {
 		text-shadow: 0 0 2px #333;
@@ -72,13 +73,16 @@
 		</div> -->
 		<div class="history-section clearfix" >
 			<div class="history-body" >
-				<button class="history-list-left-btn"></button>
-				<ul class="history-list">
-					<li class="history-list-item" track-by="$index" v-for="item in dataTableHistoryList" >
-						<img class="history-list-img" v-bind:src="item.img" />
-					</li>
-				</ul>
-				<button class="history-list-right-btn"></button>
+				<button class="history-list-left-btn" v-show="dataHistoryListBtn == 1" v-tap="handlerHistoryListBtn(1)"></button>
+				<div class="history-list-wrap">
+					<ul class="history-list-main" touch-scroll scroll-x>
+						<li class="history-list-item" track-by="$index" v-for="item in dataTableHistoryList" >
+							<img class="history-list-img" v-bind:src="item.img" />
+						</li>
+					</ul>
+				</div>
+				
+				<button class="history-list-right-btn"  v-show="dataHistoryListBtn == 2"  v-tap="handlerHistoryListBtn(2)"></button>
 			</div>
 			<div class="sound-section" >
 				<button class="sound-btn" v-tap="handlerSwitchSound()" v-bind:class="{ 'sound-close-btn': !dataUserInfo.isSound }"></button>
@@ -197,7 +201,7 @@
 		</div>
 		<div class="bottom-alert animated fadeInUp" v-show="dataBottomActive != 0" >
 			<div class="bottom-alert-content" >
-				<div class="bottom-alert-info" v-show="dataBottomActive == 1" >
+				<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 1" >
 					<p>游戏有4种水果,大小两种形式,代表八个不同的切水果区域,玩家可以在游戏中任意选择喜欢的水果工具切分相应水果</p>
 					<h3>游戏玩法</h3>
 					<p>玩家可以选择挑战或接受挑战,历练值大于等于50W才能接受挑战。历练时挑战者可根据自己的判断投放挑战工具。游戏共有8个区分别代表了8种不同奖率,游戏开始后红灯开始转动,待红灯停止,所停留位置，为游戏开奖结果。</p>
@@ -213,7 +217,7 @@
 					</div>
 				</div>
 
-				<div class="bottom-alert-info" v-show="dataBottomActive == 2" >
+				<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 2" >
 					<h3>(1)忍者招募</h3>
 					<p>规则：每日完成20局游戏即可获得奖励;</p>
 					<p>奖励：中忍标识<img src="./image/ren2.gif"/>24小时和宝马Z4坐骑24小时;</p>
@@ -239,12 +243,12 @@
 						</table>
 					</div>
 				</div>
-				<div class="bottom-alert-info" v-show="dataBottomActive == 3" >
+				<div touch-scroll  scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 3" >
 					<div class="rank-nav" >
 						<a class="active" v-bind:class="{ active: dataRankInfo.active == 1} " v-tap="handlerBottomRankNav(1)">本周榜</a>
 						<a  v-bind:class="{ active: dataRankInfo.active == 2}"  v-tap="handlerBottomRankNav(2)">上周榜</a>
 					</div>
-					<div >
+					<div  >
 						<ul class="rank-list" v-show="dataRankInfo.active == 1">
 							<li class="rank-item" v-for="item in dataRankInfo.week">
 								<span class="rank-no ">
@@ -279,11 +283,13 @@
 			<button class="bottom-btn"  v-bind:class="{active: dataBottomActive == 2} " v-tap="handlerBottomBtn(2)">忍者招募</button>
 			<button class="bottom-btn"  v-bind:class="{active: dataBottomActive == 3} "  v-tap="handlerBottomBtn(3)">排行榜</button>
 		</div>
-			<div class="alert-wrap"  v-show="!alertInfo.out" v-tap="handlerCloseAlert()" ></div>
-			<div class="alert-main animated " v-show="!alertInfo.out" v-bind:class="{ fadeInUp: !alertInfo.out, fadeOutDown: alertInfo.out}">
-				<div class="alert-title" >{{alertInfo.title}}</div>
-				<div class="alert-content" >{{{alertInfo.content}}}</div>
+		<div class="alert-wrap"  v-show="!alertInfo.out" v-tap="handlerCloseAlert()" ></div>
+		<div  class="alert-main animated  " v-show="!alertInfo.out" v-bind:class="{ fadeInUp: !alertInfo.out, fadeOutDown: alertInfo.out}">
+			<div class="alert-title" >{{alertInfo.title}}</div>
+			<div  class="alert-content" >
+				<div touch-scroll scroll-y=1 class="alert-content-inner">{{{alertInfo.content}}}</div>
 			</div>
+		</div>
 		
 		
 	</div>
