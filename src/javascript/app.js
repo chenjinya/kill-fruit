@@ -386,7 +386,10 @@ App.prototype = {
 			step: endNo + 22 * this.loopCircle - oldNo
 		};
 		console.log("start", oldNo, "end", endNo)
-		this.loopFruitList(true);
+		setTimeout(function(){
+			self.loopFruitList(true);
+		}, 1);
+		
 
 		//倒计时
 		this.timeCouting(initTime ? initTime : this.step3Time, function(){
@@ -461,6 +464,10 @@ App.prototype = {
 		
 	},
 	loopFruitList: function(init){
+		if(this.vmData.dataGameStatus.step != 3){
+			this.loopFruitTimeout && clearTimeout(this.loopFruitTimeout);
+			return false;
+		}
 		var self = this;
 		self.vmData.dataUserInfo.isSound && self.soundPlayTurn();
 		console.log("loop total step", self.vmData.dataLoopFruit.step);
