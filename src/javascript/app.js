@@ -300,6 +300,11 @@ App.prototype = {
 			width: width + "px",
 			height: height + "px",
 		});
+		var self = this;
+		$(window).on('resize',function(){
+			console.log('resize')
+			self.initWindow();
+		})
 	},
 	initVue: function(){
 		var self = this;
@@ -308,13 +313,25 @@ App.prototype = {
 			acceptStatement:true,
 			bind: function () {
 				var plugin = this;
-				this.el.addEventListener("touchstart", function(e){
-					if(typeof plugin.handler == "function"){
-						self.knifeClickPos.x = e.changedTouches[0].clientX;
-						self.knifeClickPos.y = e.changedTouches[0].clientY;
-						plugin.handler.call(this)
-					}
-				});
+				if($.os.phone == false){
+					this.el.addEventListener("click", function(e){
+						console.log(e)
+						if(typeof plugin.handler == "function"){
+							self.knifeClickPos.x = e.clientX - (this.window.width - this.stageWidth * self.scale)/2;
+							self.knifeClickPos.y = e.clientY- (this.window.height - this.stageHeight * self.scale)/2;
+							plugin.handler.call(this)
+						}
+					});
+				} else {
+					this.el.addEventListener("touchstart", function(e){
+						if(typeof plugin.handler == "function"){
+							self.knifeClickPos.x = e.changedTouches[0].clientX - (self.window.width - self.stageWidth* self.scale) /2;
+							self.knifeClickPos.y = e.changedTouches[0].clientY- (self.window.height - self.stageHeight* self.scale) /2;
+							plugin.handler.call(this)
+						}
+					});
+				}
+				
 			},
 			update: function (fn) {
 				this.handler = fn;
@@ -804,6 +821,7 @@ App.prototype = {
 		}
 
 		this.vmData.dataTableHistoryList = [];
+		this.vmData.currentKnife = 0;
 	},
 	initLoadData: function(){
 		this.vmData.dataBankerList = [
@@ -840,7 +858,7 @@ App.prototype = {
 	},
 	initActionData: function(){
 		
-		this.vmData.currentKnife = 0;
+		
 		this.vmData.currentFruit = {};
 		this.vmData.currentCut = {};
 		this.vmData.knifeClickShow = false;

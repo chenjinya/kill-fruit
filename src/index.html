@@ -7,19 +7,6 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<link rel="stylesheet" type="text/css" href="./style/vendor/animate.css">
 
-	<link rel="stylesheet" type="text/css" href="./style/app.css">
-	<link rel="prefetch" href="./audio/turn.mp3" />  
-	<link rel="prefetch" href="./audio/win1.mp3" />  
-	<link rel="prefetch" href="./audio/win2.mp3" />  
-	<link rel="prefetch" href="./audio/lose1.mp3" />  
-	<link rel="prefetch" href="./audio/lose2.mp3" />  
-	<link rel="prefetch" href="./audio/cut.mp3" />  
-	<title>水果忍者</title>
-	<script type="text/javascript">
-	document.addEventListener('touchmove', function (event) {
-		event.preventDefault();
-	}, false);
-	</script>
 	<style type="text/css">
 	[v-cloak]{
 		display: none;
@@ -38,27 +25,39 @@
 		height: 40px;
 	}
 	.striped{
-		    background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-    background-image: -o-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+		background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    	background-image: -o-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    	background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
 	}
 	.loading .loading-bar {
 		border-radius: 20px;
 		background-image: -webkit-linear-gradient(top,#f0ad4e 0,#ec971f 100%);
-    background-image: -o-linear-gradient(top,#f0ad4e 0,#ec971f 100%);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#f0ad4e),to(#ec971f));
-    background-image: linear-gradient(to bottom,#f0ad4e 0,#ec971f 100%);
+    	background-image: -o-linear-gradient(top,#f0ad4e 0,#ec971f 100%);
+    	background-image: -webkit-gradient(linear,left top,left bottom,from(#f0ad4e),to(#ec971f));
+    	background-image: linear-gradient(to bottom,#f0ad4e 0,#ec971f 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffec971f', GradientType=0);
-    background-repeat: repeat-x;
-    height: 20px;
+    	background-repeat: repeat-x;
+    	height: 20px;
 	}
 	.loading .loading-text {
-		text-shadow: 0 0 2px;
+		text-shadow: 0 0 2px #333;
 		color: #FFF;
 		width: 200px;
 		text-align: center;
 	}
 	</style>
+	<link rel="stylesheet" type="text/css" href="./style/app.css">
+	<link rel="prefetch" href="./audio/win1.mp3" />  
+	<link rel="prefetch" href="./audio/win2.mp3" />  
+	<link rel="prefetch" href="./audio/lose1.mp3" />  
+	<link rel="prefetch" href="./audio/lose2.mp3" />  
+	<title>水果忍者</title>
+	<script type="text/javascript">
+	document.addEventListener('touchmove', function (event) {
+		event.preventDefault();
+	}, false);
+	</script>
+
 
 </head>
 <body scroll="no"class="app"  >
