@@ -459,6 +459,10 @@ App.prototype = {
 						self.vmData.dataBottomActive = item;
 					}
 					
+				},
+				handlerBottomRankNav: function(type){
+					console.log(type);
+					self.vmData.dataRankInfo.active = parseInt(type);
 				}
 			},
 		});
@@ -843,6 +847,58 @@ App.prototype = {
 			}
 		];
 
+		this.vmData.dataRankInfo = {
+			active : 1,
+			week: [
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水1",
+					level: 22,
+					money: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水2",
+					level: 27,
+					money: 629329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+			],
+			preweek: [
+				{
+					avatar: './image/avatar.jpg',
+					name: "435哈胜过白开水1",
+					level: 22,
+					money: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇45667胜过白开水2",
+					level: 27,
+					money: 629329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					name: "哇哈哈657胜过白开水3",
+					level: 23,
+					money: 829329902,
+				},
+			],
+		}
+		for(var i in this.vmData.dataRankInfo.week){
+			this.vmData.dataRankInfo.week[i]['levelimg'] = 
+			"./image/levelicon/"+this.vmData.dataRankInfo.week[i]['level']+".png";
+		}
+		for(var i in this.vmData.dataRankInfo.preweek){
+			this.vmData.dataRankInfo.preweek[i]['levelimg'] = 
+			"./image/levelicon/"+this.vmData.dataRankInfo.preweek[i]['level']+".png";
+		}
+		this.vmData.dataBottomActive =0;
 
 		this.vmData.dataGameStatus = {
 			timeout: 10,
@@ -878,7 +934,7 @@ App.prototype = {
 			end: 0,
 			step: 22 * 3,
 		};
-		this.vmData.dataBottomActive =0;
+		
 	}, 
 	alert: function(alertInfo, noautoclose){
 		var self = this;
@@ -928,6 +984,21 @@ App.prototype = {
 		if(this.soundPlayCutLoopNum >= audios.length){
 			this.soundPlayCutLoopNum = 0;
 		}
+	},
+	touchScroll: function(){
+		var scrollTop = 0;
+		var scrollStart = 0;
+		$("[touch-scroll]").on("touchstart", function(){
+			scrollStart = e.changedTouches[0].clientY;
+		}).on("touchmove", function(){
+			scrollTop = e.changedTouches[0].clientY - scrollStart;
+			if(scrollTop > 0){
+				$(this).css({
+					top: scrollTop,
+				})
+			}
+		});
+
 	},
 	socket: {
 		onMessage: function(data){

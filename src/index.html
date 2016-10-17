@@ -241,30 +241,33 @@
 				</div>
 				<div class="bottom-alert-info" v-show="dataBottomActive == 3" >
 					<div class="rank-nav" >
-						<a class="active">本周榜</a><a>上周榜</a>
+						<a class="active" v-bind:class="{ active: dataRankInfo.active == 1} " v-tap="handlerBottomRankNav(1)">本周榜</a>
+						<a  v-bind:class="{ active: dataRankInfo.active == 2}"  v-tap="handlerBottomRankNav(2)">上周榜</a>
 					</div>
 					<div >
-						<ul class="rank-list">
-							<li class="rank-item">
-								<span class="rank-no">1</span>
-								<img  class="rank-avatar" src="./image/knife-5.png" />
-								<span class="rank-name" >212</span>
-								<span class="rank-level ">23</span>
-								<span class="rank-money ">3434</span>
+						<ul class="rank-list" v-show="dataRankInfo.active == 1">
+							<li class="rank-item" v-for="item in dataRankInfo.week">
+								<span class="rank-no ">
+									<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
+									<span v-else>{{$index+1}}</span>
+								</span>
+								<img  class="rank-avatar" v-bind:src="item.avatar" />
+								<span class="rank-name" >{{item.name}}</span>
+								<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
+								<span class="rank-money ">{{item.money}}</span>
 							</li>
-							<li class="rank-item">
-								<span class="rank-no">1</span>
-								<img  class="rank-avatar" src="./image/knife-5.png" />
-								<span class="rank-name" >212</span>
-								<span class="rank-level ">23</span>
-								<span class="rank-money ">3434</span>
-							</li>
-							<li class="rank-item">
-								<span class="rank-no">1</span>
-								<img  class="rank-avatar" src="./image/knife-5.png" />
-								<span class="rank-name" >212</span>
-								<span class="rank-level ">23</span>
-								<span class="rank-money ">3434</span>
+							
+						</ul>
+						<ul class="rank-list" v-show="dataRankInfo.active == 2">
+							<li class="rank-item" v-for="item in dataRankInfo.preweek">
+								<span class="rank-no ">
+									<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
+									<span v-else>{{$index+1}}</span>
+								</span>
+								<img  class="rank-avatar" v-bind:src="item.avatar" />
+								<span class="rank-name" >{{item.name}}</span>
+								<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
+								<span class="rank-money ">{{item.money}}</span>
 							</li>
 						</ul>
 					</div>

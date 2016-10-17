@@ -1,5 +1,5 @@
 @charset "UTF-8";
-.textOverflow, .banker-section .banker-list-rank, .banker-section .banker-list-name, .banker-section .banker-list-value, .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2, .table-section-center .table-stage-item-num, .alert-prize-list .prize-list-name, .alert-prize-list .prize-list-prize {
+.textOverflow, .banker-section .banker-list-rank, .banker-section .banker-list-name, .banker-section .banker-list-value, .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2, .table-section-center .table-stage-item-num, .alert-prize-list .prize-list-name, .alert-prize-list .prize-list-prize, .bottom-alert-info .rank-list .rank-name, .bottom-alert-info .rank-list .rank-money {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
@@ -485,14 +485,14 @@ ul, li {
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
   z-index: 1;
-  -webkit-animation-duration: .1s;
-          animation-duration: .1s; }
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s; }
 
 .alert-main {
   z-index: 100;
   position: absolute;
-  -webkit-animation-duration: .1s;
-          animation-duration: .1s;
+  -webkit-animation-duration: .5s;
+          animation-duration: .5s;
   top: 0;
   left: 0;
   bottom: 0;
@@ -588,24 +588,37 @@ ul, li {
     .bottom-alert-info .rank-nav a.active {
       color: #ab5d30;
       text-decoration: underline; }
-  .bottom-alert-info .rank-list li span {
-    display: inline-block;
-    text-align: left; }
-  .bottom-alert-info .rank-list .rank-no {
-    width: 50px;
-    text-align: center;
-    font-size: 28px;
-    color: #ab5d30; }
-  .bottom-alert-info .rank-list .rank-avatar {
-    width: 70px;
-    border-radius: 50%; }
-  .bottom-alert-info .rank-list .rank-name {
-    width: 260px;
-    font-size: 26px;
-    color: #3f3f3f; }
-  .bottom-alert-info .rank-list .rank-level {
-    width: 55px; }
-  .bottom-alert-info .rank-list .rank-money {
-    width: 145px;
-    font-size: 24px;
-    color: #ab5d30; }
+  .bottom-alert-info .rank-list {
+    margin-top: 28px; }
+    .bottom-alert-info .rank-list li span {
+      line-height: 24px;
+      display: inline-block;
+      text-align: left; }
+    .bottom-alert-info .rank-list .rank-no {
+      width: 50px;
+      text-align: center;
+      font-size: 28px;
+      color: #ab5d30; }
+      .bottom-alert-info .rank-list .rank-no-1 {
+        width: 50px;
+        vertical-align: middle;
+        margin-top: -20px; }
+    .bottom-alert-info .rank-list .rank-avatar {
+      width: 70px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin: -5px 10px 20px 10px; }
+    .bottom-alert-info .rank-list .rank-name {
+      width: 240px;
+      font-size: 26px;
+      color: #3f3f3f; }
+    .bottom-alert-info .rank-list .rank-level {
+      width: 55px;
+      margin: 0 10px 0 10px; }
+      .bottom-alert-info .rank-list .rank-level-icon {
+        width: 53px;
+        vertical-align: text-bottom; }
+    .bottom-alert-info .rank-list .rank-money {
+      width: 130px;
+      font-size: 24px;
+      color: #ab5d30; }

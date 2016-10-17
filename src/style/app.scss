@@ -742,7 +742,9 @@ ul,li{
 		}
 	}
 	.rank-list{
+		margin-top: 28px;
 		li span{
+			line-height: 24px;
 			display: inline-block;
 			text-align: left;
 		}
@@ -751,23 +753,37 @@ ul,li{
 			text-align: center;
 			font-size:28px;
 			color:#ab5d30;
+			&-1 {
+				width: 50px;
+				vertical-align: middle;
+				margin-top: -20px;
+			}
 		}
 		.rank-avatar{
 			width: 70px;
 			border-radius: 50%;
+			vertical-align: middle;
+			margin: -5px 10px 20px 10px;
 		}
 		.rank-name{
-			width: 260px;
+			width: 240px;
 			font-size:26px;
 			color:#3f3f3f;
+			@extend .textOverflow
 		}
 		.rank-level {
 			width: 55px;
+			&-icon {
+				width: 53px;
+				vertical-align: text-bottom;
+			}
+			margin: 0 10px 0 10px;
 		}
 		.rank-money {
-			width: 145px;
+			width: 130px;
 			font-size:24px;
 			color:#ab5d30;
+			@extend .textOverflow
 		}
 	}
 }
