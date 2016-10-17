@@ -317,8 +317,8 @@ App.prototype = {
 					this.el.addEventListener("click", function(e){
 						console.log(e)
 						if(typeof plugin.handler == "function"){
-							self.knifeClickPos.x = e.clientX - (this.window.width - this.stageWidth * self.scale)/2;
-							self.knifeClickPos.y = e.clientY- (this.window.height - this.stageHeight * self.scale)/2;
+							self.knifeClickPos.x = e.clientX - (self.window.width - self.stageWidth * self.scale)/2;
+							self.knifeClickPos.y = e.clientY- (self.window.height - self.stageHeight * self.scale)/2;
 							plugin.handler.call(this)
 						}
 					});
