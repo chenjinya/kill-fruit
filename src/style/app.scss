@@ -699,6 +699,12 @@ ul,li{
 	margin: 10px;
 	overflow: auto;
 }
+.bottom-alert-inner{
+	margin:10px;
+	overflow: auto;
+	width:648px;
+	height:593px;
+}
 
 .bottom-alert-info{
 
@@ -773,7 +779,7 @@ ul,li{
 			margin: -5px 10px 20px 10px;
 		}
 		.rank-name{
-			width: 240px;
+			width: 226px;
 			font-size:26px;
 			color:#3f3f3f;
 			@extend .textOverflow

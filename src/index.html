@@ -201,79 +201,81 @@
 		</div>
 		<div class="bottom-alert animated fadeInUp" v-show="dataBottomActive != 0" >
 			<div class="bottom-alert-content" >
-				<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 1" >
-					<p>游戏有4种水果,大小两种形式,代表八个不同的切水果区域,玩家可以在游戏中任意选择喜欢的水果工具切分相应水果</p>
-					<h3>游戏玩法</h3>
-					<p>玩家可以选择挑战或接受挑战,历练值大于等于50W才能接受挑战。历练时挑战者可根据自己的判断投放挑战工具。游戏共有8个区分别代表了8种不同奖率,游戏开始后红灯开始转动,待红灯停止,所停留位置，为游戏开奖结果。</p>
+				<div class="bottom-alert-inner" >
+					<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 1" >
+						<p>游戏有4种水果,大小两种形式,代表八个不同的切水果区域,玩家可以在游戏中任意选择喜欢的水果工具切分相应水果</p>
+						<h3>游戏玩法</h3>
+						<p>玩家可以选择挑战或接受挑战,历练值大于等于50W才能接受挑战。历练时挑战者可根据自己的判断投放挑战工具。游戏共有8个区分别代表了8种不同奖率,游戏开始后红灯开始转动,待红灯停止,所停留位置，为游戏开奖结果。</p>
 
-					<p>游戏前5秒,为轮换被挑战者时间,玩家可选择继续接受挑战或成为挑战者。轮换被挑战者时间后,玩家将有20秒选择挑战区域和挑战工具。操作提示：选择你喜欢的挑战工具和数量,并在高亮区域投放挑战工具,当投放工具超出你所拥有的历练值之外,区域呈灰色无法挑战,游戏中你可以单击挑战,也可以连续挑战。</p>
-					<h3>工具说明</h3>
-					<div class="bottom-alert-info-tools">
-						<p>水果刀:500</p>
-						<p>西瓜刀:1k</p>
-						<p>菜刀:5k</p>
-						<p>斧头:10k</p>
-						<p>双刀:50k</p>
+						<p>游戏前5秒,为轮换被挑战者时间,玩家可选择继续接受挑战或成为挑战者。轮换被挑战者时间后,玩家将有20秒选择挑战区域和挑战工具。操作提示：选择你喜欢的挑战工具和数量,并在高亮区域投放挑战工具,当投放工具超出你所拥有的历练值之外,区域呈灰色无法挑战,游戏中你可以单击挑战,也可以连续挑战。</p>
+						<h3>工具说明</h3>
+						<div class="bottom-alert-info-tools">
+							<p>水果刀:500</p>
+							<p>西瓜刀:1k</p>
+							<p>菜刀:5k</p>
+							<p>斧头:10k</p>
+							<p>双刀:50k</p>
+						</div>
 					</div>
-				</div>
 
-				<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 2" >
-					<h3>(1)忍者招募</h3>
-					<p>规则：每日完成20局游戏即可获得奖励;</p>
-					<p>奖励：中忍标识<img src="./image/ren2.gif"/>24小时和宝马Z4坐骑24小时;</p>
-					<h3>(2)中忍考试</h3>
-					<p>规则：每日下注20次即可获得奖励;</p>
-					<p>奖励：下忍标识<img src="./image/ren3.png"/>24小时;</p>
-					<h3>(3)忍者大战</h3>
-					<p>规则：每周使用忍者道具价值最高的忍者，将进入忍者榜单;</p>
-					<h3>(4)榜单及奖励</h3>
-					<div>
-						<table cellpadding="0" cellspacing="0">
-							<tbody>
-								<tr>
-									<th>排名</th><th>奖励1</th><th>奖励2</th><th>奖励3</th>
-								</tr>
-								<tr>
-									<td>1</td><td>200万秀币</td><td>3倍经验2天</td><td>赢专属勋章<img src="./image/renshadow.gif"/>7天</td>
-								</tr>
-								<tr>
-									<td>2~10</td><td>100万秀币</td><td>双倍经验2天</td><td>上忍<img src="./image/ren1.gif"/>标识7天</td>
-								</tr>
-							</tbody>
-						</table>
+					<div touch-scroll scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 2" >
+						<h3>(1)忍者招募</h3>
+						<p>规则：每日完成20局游戏即可获得奖励;</p>
+						<p>奖励：中忍标识<img src="./image/ren2.gif"/>24小时和宝马Z4坐骑24小时;</p>
+						<h3>(2)中忍考试</h3>
+						<p>规则：每日下注20次即可获得奖励;</p>
+						<p>奖励：下忍标识<img src="./image/ren3.png"/>24小时;</p>
+						<h3>(3)忍者大战</h3>
+						<p>规则：每周使用忍者道具价值最高的忍者，将进入忍者榜单;</p>
+						<h3>(4)榜单及奖励</h3>
+						<div>
+							<table cellpadding="0" cellspacing="0">
+								<tbody>
+									<tr>
+										<th>排名</th><th>奖励1</th><th>奖励2</th><th>奖励3</th>
+									</tr>
+									<tr>
+										<td>1</td><td>200万秀币</td><td>3倍经验2天</td><td>赢专属勋章<img src="./image/renshadow.gif"/>7天</td>
+									</tr>
+									<tr>
+										<td>2~10</td><td>100万秀币</td><td>双倍经验2天</td><td>上忍<img src="./image/ren1.gif"/>标识7天</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
-				<div touch-scroll  scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 3" >
-					<div class="rank-nav" >
-						<a class="active" v-bind:class="{ active: dataRankInfo.active == 1} " v-tap="handlerBottomRankNav(1)">本周榜</a>
-						<a  v-bind:class="{ active: dataRankInfo.active == 2}"  v-tap="handlerBottomRankNav(2)">上周榜</a>
-					</div>
-					<div  >
-						<ul class="rank-list" v-show="dataRankInfo.active == 1">
-							<li class="rank-item" v-for="item in dataRankInfo.week">
-								<span class="rank-no ">
-									<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
-									<span v-else>{{$index+1}}</span>
-								</span>
-								<img  class="rank-avatar" v-bind:src="item.avatar" />
-								<span class="rank-name" >{{item.name}}</span>
-								<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
-								<span class="rank-money ">{{item.money}}</span>
-							</li>
-							
-						</ul>
-						<ul class="rank-list" v-show="dataRankInfo.active == 2">
-							<li class="rank-item" v-for="item in dataRankInfo.preweek">
-								<span class="rank-no ">
-									<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
-									<span v-else>{{$index+1}}</span>
-								</span>
-								<img  class="rank-avatar" v-bind:src="item.avatar" />
-								<span class="rank-name" >{{item.name}}</span>
-								<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
-								<span class="rank-money ">{{item.money}}</span>
-							</li>
-						</ul>
+					<div touch-scroll  scroll-y=1 class="bottom-alert-info" v-show="dataBottomActive == 3" >
+						<div class="rank-nav" >
+							<a class="active" v-bind:class="{ active: dataRankInfo.active == 1} " v-tap="handlerBottomRankNav(1)">本周榜</a>
+							<a  v-bind:class="{ active: dataRankInfo.active == 2}"  v-tap="handlerBottomRankNav(2)">上周榜</a>
+						</div>
+						<div  >
+							<ul class="rank-list" v-show="dataRankInfo.active == 1">
+								<li class="rank-item" v-for="item in dataRankInfo.week">
+									<span class="rank-no ">
+										<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
+										<span v-else>{{$index+1}}</span>
+									</span>
+									<img  class="rank-avatar" v-bind:src="item.avatar" />
+									<span class="rank-name" >{{item.name}}</span>
+									<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
+									<span class="rank-money ">{{item.money}}</span>
+								</li>
+								
+							</ul>
+							<ul class="rank-list" v-show="dataRankInfo.active == 2">
+								<li class="rank-item" v-for="item in dataRankInfo.preweek">
+									<span class="rank-no ">
+										<img  v-if="$index == 0" class="rank-no-1" src="./image/rank1icon.png" />
+										<span v-else>{{$index+1}}</span>
+									</span>
+									<img  class="rank-avatar" v-bind:src="item.avatar" />
+									<span class="rank-name" >{{item.name}}</span>
+									<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
+									<span class="rank-money ">{{item.money}}</span>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -178,6 +178,7 @@ App.prototype = {
 	//倒计时timer
 	timer: null,
 
+	touchTimeout: null,
 
 
 	//轮盘旋转时间
@@ -1083,6 +1084,8 @@ App.prototype = {
 			}
 			
 		}).on("touchmove", function(e){
+			self.touchTimeout && clearTimeout(self.touchTimeout);
+			self.touchTimeout = setTimeout(function(){},1000)
 			if($(this).attr("scroll-y")){
 				scrollDre = e.changedTouches[0].clientY - scrollPre;
 				scrollStep = 10;
