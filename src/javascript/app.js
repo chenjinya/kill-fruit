@@ -392,10 +392,21 @@ App.prototype = {
 
 						return false;
 					}
+					
 
 					self.vmData.dataUserInfo.isSound && self.soundPlayCut();
 
 					self.vmData.currentFruit = item;
+
+					var sd = {
+						fc: 'bet',
+						moneyIndex: self.vmData.currentKnife.id,
+						fruitIndex: self.vmData.currentFruit.id
+					}
+					window.socket.send(sd, function(data){
+
+					});
+
 					item.count += money ;//个人的
 					item.total += 1 ;//全部的次数
 
@@ -424,6 +435,7 @@ App.prototype = {
 					self.knifeClickTimeout = setTimeout(function(){
 						self.vmData.knifeClickShow = false;
 					}, 2000);
+
 
 					// self.vmData.dataUserInfo.diffMoney -= money;
 				},
@@ -573,7 +585,7 @@ App.prototype = {
 		}
 	},
 	processStepCuting : function(initTime){
-		console.log(this.vmData.currentCut);
+		//console.log(this.vmData.currentCut);
 		var self = this;
 		this.vmData.dataGameStatus.step = 2;
 		this.timeCouting(initTime ? initTime : this.step2Time, function(){
@@ -710,6 +722,9 @@ App.prototype = {
 		this.loopFruitTimeout = setTimeout(function(){
 			if(init){
 				var fruitIndex = self.vmData.dataLoopFruit.no;
+				if(fruitIndex < 0){
+					fruitIndex = 1;
+				}
 				var currentLoopFruit = self.vmData.dataTableFruitList[fruitIndex];
 				currentLoopFruit.no = fruitIndex;
 				self.vmData.dataLoopFruit.id = currentLoopFruit.id;
@@ -854,6 +869,20 @@ App.prototype = {
 		}
 
 		this.vmData.dataTableHistoryList = [];
+		this.vmData.dataBankerList = [];
+		this.vmData.dataRankInfo = {};
+		this.vmData.dataBottomActive =0;
+		this.vmData.dataGameStatus = {
+			timeout: 10,
+			step: 1, // 1 准备， 2， 切水果，3，公布
+		}
+		this.vmData.dataUserInfo = {
+			isSound: false,
+			isBanker: false,
+			money: 0,
+			diffMoney: 0,
+			
+		}
 		// for( var i in [1,2,3,4,5,6,7,8,3,4]){
 		// 	var j = [1,2,3,4,5,6,7,8,3,4][i];
 		// 	this.vmData.dataTableHistoryList.push(this.fruitData[j]);
@@ -862,22 +891,37 @@ App.prototype = {
 		this.vmData.currentKnife = 0;
 	},
 	initLoadData: function(){
+		var self = this;
+		var sd = {
+			xiubaToken: 'fdsafsdafsad',
+			fid: 1,
+			rid: 1,
+		}
+		socket.send(sd, function(data){
+			console.log(data);
+			
+			for( var i in data.awards){
+				var j = data.awards[i];
+				self.vmData.dataTableHistoryList.push(self.fruitData[j]);
+			}
+			//console.log(self.vmData.dataTableHistoryList)
+		});
 		this.vmData.dataBankerList = [
 			{
-				name: "花生与米国",
-				money: 34953496,
+				userNick: "花生与米国",
+				userMoney: 34953496,
 			},
 			{
-				name: "混沌大魔王",
-				money: 4393923,
+				userNick: "混沌大魔王",
+				userMoney: 4393923,
 			},
 			{
-				name: "奇葩大胜",
-				money: 43021212,
+				userNick: "奇葩大胜",
+				userMoney: 43021212,
 			},
 			{
-				name: "混沌使者",
-				money: 1231393,
+				userNick: "混沌使者",
+				userMoney: 1231393,
 			}
 		];
 
@@ -886,71 +930,17 @@ App.prototype = {
 			week: [
 				{
 					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水1",
+					userNick: "哇哈哈胜过白开水1",
 					level: 22,
-					money: 429329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水2",
-					level: 27,
-					money: 629329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈胜过白开水3",
-					level: 23,
-					money: 829329902,
-				},
+					winMoney: 429329902,
+				}
 			],
 			preweek: [
 				{
 					avatar: './image/avatar.jpg',
-					name: "435哈胜过白开水1",
+					userNick: "哇哈哈胜过白开水1",
 					level: 22,
-					money: 429329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇45667胜过白开水2",
-					level: 27,
-					money: 629329902,
-				},
-				{
-					avatar: './image/avatar.jpg',
-					name: "哇哈哈657胜过白开水3",
-					level: 23,
-					money: 829329902,
+					winMoney: 429329902,
 				},
 			],
 		}
@@ -975,7 +965,7 @@ App.prototype = {
 			diffMoney: 0,
 			
 		}
-		this.vmData.dataHistoryListBtn = 0;
+		this.vmData.dataHistoryListBtn = 2;
 	},
 	initActionData: function(){
 		
@@ -1148,31 +1138,154 @@ App.prototype = {
 		});
 
 	},
-	socket: {
-		onMessage: function(data){
+	onDirective:function(data){
 
-		},
-		send: function(data){
-			if($.os.iphone){
-				window.send(JSON.stringify(data));
-			} else if($.os.android){
-				window.fruitAndroid = {};
-				window.fruitAndroid.send(JSON.stringify(data));
-			}
-		}
 	}
 
 }
 
 $(document).ready(function(){
-	window.app = new App();
+	
+	window.socket = {};
+	window.pushMessage = function(fc){
+		var resvData = {};
+		if(fc == 'betinfo') {
+			//全部下注信息
+			resvData = {
+        		fc: 'betinfo',
+        		moneyIndex: 1,
+        		fruitIndex: 2,
+        	}
+		} else if (fc == 'stage'){
+			//游戏各阶段
+			resvData = {
+        		fc: 'stage',
+        		msgCode: 1,
+        		type: 'ready', // bet publish
+        		descp: '准备', //开始 公布
+        		stayTime: 5, // 20 13
+        	}
+		} else if (fc == 'award'){
+			//开奖信息
+			resvData = {
+        		fc: 'award',
+        		msgCode: 1,
+        		winRange: 1, // bet publish
+        		winType: 2, //开始 公布
+        		
+        	}
+		} else if (fc == 'userAward'){
+			//用户开奖信息
+        	resvData = {
+        		fc: 'userAward',
+        		msgCode: 1,
+        		userId: 1, // bet publish
+        		userMoney: 100,
+        		winMoney: 1000,
+        		
+        	}
+		} else if (fc == 'userAward'){
+			//用户开奖信息
+        	resvData = {
+        		fc: 'userAward',
+        		msgCode: 1,
+        		userId: 1, // bet publish
+        		userMoney: 100,
+        		winMoney: 1000,
+        		
+        	}
+		} else if (fc == 'masterList'){
+			//用户开奖信息
+        	resvData = {
+        		fc: 'masterList',
+        		msgCode: 1,
+        		bakerList:[
+        			Object.assign({},window.userInfo),
+        			Object.assign({},window.userInfo),
+        			Object.assign({},window.userInfo),
+        			Object.assign({},window.userInfo),
+        		]
+        		
+        	}
+		} else if (fc == 'userBalance'){
+			//用户开奖信息
+        	resvData = {
+        		fc: 'userBalance',
+        		msgCode: 1,
+        		userId: 999854, // bet publish
+        		userMoney: 100,
+        		type: 1, //1=当庄 2=下庄 3=结算 为1时战绩为0
+        	}
+		}
 
-	if($.os.iphone){
-		window.onMessage = function(data){
-	        console.log("recieve", JSON.stringify(data));
-	        app.socket.onMessage(data);
-	    }
-
+		window.onMessage(resvData);
 	}
-})
+	window.onMessage = function(data){
+        console.log("recieve", data);
+        window.socket.onMessage = function(data){
+        	
+        	//masterList
+        	window.app.onDirective(data);
+        };
+    }
+    window.socket.onSendBack = function(data,fn){
+    	fn && fn(data);
+    }
+    window.socket.send = function(data, fn){
+    	console.log("send data", data);
+    	if($.os.iphone){
+			window.send && window.send(JSON.stringify(data));
+		} else if($.os.android){
+			window.fruitAndroid && window.fruitAndroid.send && window.fruitAndroid.send(JSON.stringify(data));
+		}
 
+
+		var resv = "{\"no\": 9}";
+		var resvData = JSON.parse(resv);
+		
+		if(data.fc == 1){
+			resvData = {
+				fc: 1,
+				msgCode: 1,
+				awards: [1,2,3,6,4,6,8,5,6,3],
+				userInfo: Object.assign({},window.userInfo),
+			}
+		} else if(data.fc == 'bet'){
+			resvData = {
+				fc: 'bet',
+				msgCode: 1,
+				moneyIndex: 1,
+				fruitIndex: 2,
+				userMoney: 4000,
+			}
+		} else if(data.fc == 'upMaster'){
+			resvData = {
+				fc: 'bet',
+				msgCode: 1,
+				errorMsg: '',
+			}
+		} else if(data.fc == 'downMaster'){
+			resvData = {
+				fc: 'bet',
+				msgCode: 1,
+				uping: 1,
+			}
+		}
+		if(resvData.msgCode != 1){
+			console.log("send error " , resvData);
+			return false;
+		}
+		console.log("resv data" , resvData);
+		fn && fn(resvData);
+    }
+	window.app = new App();
+})
+window.userInfo = {
+			userNick: "哇哈哈好酒",
+			userMoney: 9483942328,
+			userId: 999854,
+			userType: 0,
+			upMoney: 500000,
+			winMoney: 283923,
+			giveUp: 1,
+		}

@@ -109,9 +109,9 @@
 					<div class="banker-list-main" >
 						<ul>
 							<li v-for="item in dataBankerList">
-								<div class="banker-list-item banker-list-rank">{{$index}}</div>
-								<div class="banker-list-item banker-list-name">{{item.name}}</div>
-								<div class="banker-list-item banker-list-value">{{item.money}}</div>
+								<div class="banker-list-item banker-list-rank">{{$index + 1}}</div>
+								<div class="banker-list-item banker-list-name">{{item.userNick}}</div>
+								<div class="banker-list-item banker-list-value">{{item.userMoney}}</div>
 							</li>
 							
 						</ul>
@@ -257,9 +257,9 @@
 										<span v-else>{{$index+1}}</span>
 									</span>
 									<img  class="rank-avatar" v-bind:src="item.avatar" />
-									<span class="rank-name" >{{item.name}}</span>
+									<span class="rank-name" >{{item.userNick}}</span>
 									<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
-									<span class="rank-money ">{{item.money}}</span>
+									<span class="rank-money ">{{item.winMoney}}</span>
 								</li>
 								
 							</ul>
@@ -270,9 +270,9 @@
 										<span v-else>{{$index+1}}</span>
 									</span>
 									<img  class="rank-avatar" v-bind:src="item.avatar" />
-									<span class="rank-name" >{{item.name}}</span>
+									<span class="rank-name" >{{item.userNick}}</span>
 									<span class="rank-level "><img class="rank-level-icon" v-bind:src="item.levelimg" /></span>
-									<span class="rank-money ">{{item.money}}</span>
+									<span class="rank-money ">{{item.winMoney}}</span>
 								</li>
 							</ul>
 						</div>
