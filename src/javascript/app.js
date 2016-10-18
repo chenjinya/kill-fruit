@@ -1084,8 +1084,7 @@ App.prototype = {
 			}
 			
 		}).on("touchmove", function(e){
-			self.touchTimeout && clearTimeout(self.touchTimeout);
-			self.touchTimeout = setTimeout(function(){},1000)
+			
 			if($(this).attr("scroll-y")){
 				scrollDre = e.changedTouches[0].clientY - scrollPre;
 				scrollStep = 10;
@@ -1121,28 +1120,23 @@ App.prototype = {
 				diff =  innerHeight - outerHeight;
 			}
 
-			if(scrollTop >= scrollStep + 1){
-				// $(this).css({
-				// 	transform: "translateY(" + scrollTop + "px)",
-				// })
-			} else {
-				if(scrollTop >= - diff){
-					if($(this).attr("scroll-y")){
-						// $(this).css({
-						// 	transform: "translateY(" + (scrollTop/ self.scale) + "px)",
-						// });
-						$(this).animate({
-							translateY: (scrollTop/ self.scale) + "px",
-						});
-					} else {
-						$(this).animate({
-							translateX: (scrollTop/ self.scale) + "px",
-						});
-					}
-					
+			if(scrollTop >= 0){
+	 			scrollTop = 0;
+			} 
+			if(scrollTop >= - diff){
+				if($(this).attr("scroll-y")){
+					$(this).animate({
+						translateY: (scrollTop/ self.scale) + "px",
+					});
+				} else {
+					$(this).animate({
+						translateX: (scrollTop/ self.scale) + "px",
+					});
 				}
 				
 			}
+				
+			
 			if($(this).attr("scroll-y")){
 				scrollPre = e.changedTouches[0].clientY;
 			}else {
