@@ -398,14 +398,7 @@ App.prototype = {
 
 					self.vmData.currentFruit = item;
 
-					var sd = {
-						fc: 'bet',
-						moneyIndex: self.vmData.currentKnife.id,
-						fruitIndex: self.vmData.currentFruit.id
-					}
-					window.socket.send(sd, function(data){
-
-					});
+					
 
 					item.count += money ;//个人的
 					item.total += 1 ;//全部的次数
@@ -583,6 +576,7 @@ App.prototype = {
 			this.vmData.dataTableStageList[i].count = 0;
 			this.vmData.dataTableStageList[i].total = 0;
 		}
+		console.log(this.vmData.dataTableStageList);
 	},
 	processStepCuting : function(initTime){
 		//console.log(this.vmData.currentCut);
@@ -795,8 +789,8 @@ App.prototype = {
 
 		this.vmData.dataTableFruitList[2].active = true;
 
-		this.vmData.dataTableStageList = {
-			8: {
+		this.vmData.dataTableStageList = [
+			{
 				id: 8,
 				img: fruitData[8].img,
 				times: 40,
@@ -804,7 +798,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			4: {
+			{
 				id: 4,
 				img: fruitData[4].img,
 				times: 30,
@@ -812,7 +806,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			6: {
+			{
 				id: 6,
 				img: fruitData[6].img,
 				times: 20,
@@ -820,7 +814,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			2: {
+			{
 				id: 2,
 				img: fruitData[2].img,
 				times: 10,
@@ -828,7 +822,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			7: {
+			{
 				id: 7,
 				img: fruitData[7].img,
 				times: 5,
@@ -836,7 +830,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			3: {
+			{
 				id: 3,
 				img: fruitData[3].img,
 				times: 5,
@@ -844,7 +838,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			5: {
+			{
 				id: 5,
 				img: fruitData[5].img,
 				times: 5,
@@ -852,7 +846,7 @@ App.prototype = {
 				count: 0,
 				total: 0,
 			},
-			1: {
+			{
 				id: 1,
 				img: fruitData[1].img,
 				times: 5,
@@ -861,7 +855,8 @@ App.prototype = {
 				total: 0,
 			},
 
-		};
+		];
+		console.log(this.vmData.dataTableStageList);
 
 		this.vmData.dataTableKnifeList = [];
 		for( var i in this.knifeData){
@@ -892,20 +887,7 @@ App.prototype = {
 	},
 	initLoadData: function(){
 		var self = this;
-		var sd = {
-			xiubaToken: 'fdsafsdafsad',
-			fid: 1,
-			rid: 1,
-		}
-		socket.send(sd, function(data){
-			console.log(data);
-			
-			for( var i in data.awards){
-				var j = data.awards[i];
-				self.vmData.dataTableHistoryList.push(self.fruitData[j]);
-			}
-			//console.log(self.vmData.dataTableHistoryList)
-		});
+		
 		this.vmData.dataBankerList = [
 			{
 				userNick: "花生与米国",
@@ -1137,155 +1119,9 @@ App.prototype = {
 			//scrollStart = e.changedTouches[0].clientY;
 		});
 
-	},
-	onDirective:function(data){
-
 	}
 
 }
 
-$(document).ready(function(){
-	
-	window.socket = {};
-	window.pushMessage = function(fc){
-		var resvData = {};
-		if(fc == 'betinfo') {
-			//全部下注信息
-			resvData = {
-        		fc: 'betinfo',
-        		moneyIndex: 1,
-        		fruitIndex: 2,
-        	}
-		} else if (fc == 'stage'){
-			//游戏各阶段
-			resvData = {
-        		fc: 'stage',
-        		msgCode: 1,
-        		type: 'ready', // bet publish
-        		descp: '准备', //开始 公布
-        		stayTime: 5, // 20 13
-        	}
-		} else if (fc == 'award'){
-			//开奖信息
-			resvData = {
-        		fc: 'award',
-        		msgCode: 1,
-        		winRange: 1, // bet publish
-        		winType: 2, //开始 公布
-        		
-        	}
-		} else if (fc == 'userAward'){
-			//用户开奖信息
-        	resvData = {
-        		fc: 'userAward',
-        		msgCode: 1,
-        		userId: 1, // bet publish
-        		userMoney: 100,
-        		winMoney: 1000,
-        		
-        	}
-		} else if (fc == 'userAward'){
-			//用户开奖信息
-        	resvData = {
-        		fc: 'userAward',
-        		msgCode: 1,
-        		userId: 1, // bet publish
-        		userMoney: 100,
-        		winMoney: 1000,
-        		
-        	}
-		} else if (fc == 'masterList'){
-			//用户开奖信息
-        	resvData = {
-        		fc: 'masterList',
-        		msgCode: 1,
-        		bakerList:[
-        			Object.assign({},window.userInfo),
-        			Object.assign({},window.userInfo),
-        			Object.assign({},window.userInfo),
-        			Object.assign({},window.userInfo),
-        		]
-        		
-        	}
-		} else if (fc == 'userBalance'){
-			//用户开奖信息
-        	resvData = {
-        		fc: 'userBalance',
-        		msgCode: 1,
-        		userId: 999854, // bet publish
-        		userMoney: 100,
-        		type: 1, //1=当庄 2=下庄 3=结算 为1时战绩为0
-        	}
-		}
+var app = new App();
 
-		window.onMessage(resvData);
-	}
-	window.onMessage = function(data){
-        console.log("recieve", data);
-        window.socket.onMessage = function(data){
-        	
-        	//masterList
-        	window.app.onDirective(data);
-        };
-    }
-    window.socket.onSendBack = function(data,fn){
-    	fn && fn(data);
-    }
-    window.socket.send = function(data, fn){
-    	console.log("send data", data);
-    	if($.os.iphone){
-			window.send && window.send(JSON.stringify(data));
-		} else if($.os.android){
-			window.fruitAndroid && window.fruitAndroid.send && window.fruitAndroid.send(JSON.stringify(data));
-		}
-
-
-		var resv = "{\"no\": 9}";
-		var resvData = JSON.parse(resv);
-		
-		if(data.fc == 1){
-			resvData = {
-				fc: 1,
-				msgCode: 1,
-				awards: [1,2,3,6,4,6,8,5,6,3],
-				userInfo: Object.assign({},window.userInfo),
-			}
-		} else if(data.fc == 'bet'){
-			resvData = {
-				fc: 'bet',
-				msgCode: 1,
-				moneyIndex: 1,
-				fruitIndex: 2,
-				userMoney: 4000,
-			}
-		} else if(data.fc == 'upMaster'){
-			resvData = {
-				fc: 'bet',
-				msgCode: 1,
-				errorMsg: '',
-			}
-		} else if(data.fc == 'downMaster'){
-			resvData = {
-				fc: 'bet',
-				msgCode: 1,
-				uping: 1,
-			}
-		}
-		if(resvData.msgCode != 1){
-			console.log("send error " , resvData);
-			return false;
-		}
-		console.log("resv data" , resvData);
-		fn && fn(resvData);
-    }
-	window.app = new App();
-})
-window.userInfo = {
-			userNick: "哇哈哈好酒",
-			userMoney: 9483942328,
-			userId: 999854,
-			userType: 0,
-			upMoney: 500000,
-			winMoney: 283923,
-			giveUp: 1,
-		}

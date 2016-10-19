@@ -160,9 +160,9 @@
 								<img class="table-stage-item-icon" v-bind:src="item.img">
 							</div>
 							<div class="table-stage-item-times" >x <span>{{item.times}}</span></div>
-							<div class="table-stage-item-num"  ><span  v-show="dataGameStatus.step == 2"  >{{item.count}}</span></div>
-							<div class="table-stage-item-tip" v-show="dataGameStatus.step ==2"  >点击切水果</div>
-							<div class="table-stage-item-tip-total" v-show="dataGameStatus.step ==3" >共切{{item.total}}次</div>
+							<div class="table-stage-item-num"  ><span  v-show="dataGameStatus.step != 1"  >{{item.count}}</span></div>
+							<div class="table-stage-item-tip" v-show="dataGameStatus.step ==2 && item.total == 0"  >点击切水果</div>
+							<div class="table-stage-item-tip-total" v-show="(dataGameStatus.step ==2 && item.total > 0) || dataGameStatus.step ==3" >共切{{item.total}}次</div>
 						</div>
 						<div class="table-stage-item-knife animated fadeInUp" v-bind:style="knifeClickStyle" v-show="knifeClickShow" v-tap="handleCutFruit(currentFruit)">
 							<div class="table-stage-item-knife-money" >+{{currentKnife.money}}</div>
