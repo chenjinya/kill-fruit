@@ -422,12 +422,15 @@ App.prototype = {
 					};
 					setTimeout(function(){
 						self.vmData.knifeClickShow = true;
-					}, 10);
+					}, 1);
+					// setTimeout(function(){
+					// 	self.vmData.knifeClickShow = true;
+					// }, 1000);
 
 					self.knifeClickTimeout && clearTimeout(self.knifeClickTimeout);
 					self.knifeClickTimeout = setTimeout(function(){
 						self.vmData.knifeClickShow = false;
-					}, 2000);
+					}, 100);
 
 
 					// self.vmData.dataUserInfo.diffMoney -= money;
@@ -675,7 +678,7 @@ App.prototype = {
 		var alertTitle = "恭喜您中奖";
 		// var earnMoney = 0;
 		// var costMoney = 2000;
-		var moneyRes = earnMoney - costMoney;
+		var moneyRes = earnMoney;
 
 		if(earnMoney == 0){
 			self.vmData.dataUserInfo.isSound && self.soundPlayLose();
@@ -1083,6 +1086,9 @@ App.prototype = {
 		if(!alertInfo.title){
 			alertInfo.title = "提示";
 		}
+		$(".alert-content-inner").css({
+			transform: 'translateY(0)'
+		})
 		this.vmData.alertInfo = alertInfo;
 		if(!noautoclose) {
 			self.alertInfoTimeout && clearTimeout(self.alertInfoTimeout);
