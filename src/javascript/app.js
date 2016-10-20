@@ -493,6 +493,35 @@ App.prototype = {
 						})
 					}
 					
+				},
+				handlerUpBanker: function(){
+					if(self.vmData.dataUserInfo.money < 500000){
+						return false;
+					}
+					self.vmData.dataUserInfo.isBanker = true;
+					
+				},
+				handlerDownBanker: function(){
+					self.vmData.dataUserInfo.isBanker = false;
+					
+				},
+				handleExchange: function(){
+					self.vmData.dataUserInfo.money += 5000;
+				},
+				handlerPopBankerList: function(){
+					var listBanker = '';
+					for(var i in self.vmData.dataBankerList){
+						var item = self.vmData.dataBankerList[i];
+						listBanker += '<li><div class="banker-list-item-name" >'+item.userNick+'</div>'
+							+'<div class="banker-list-item-money" >历练值:'+item.userMoney+'</div></li>';
+					}
+					self.alert({
+						title: '挑战队列',
+						content: '<div class="banker-list-item-count">当前队列 '+ self.vmData.dataBankerList.length +' 人</div>'
+						+ '<ul>'
+						+ listBanker
+						+ '</ul>'
+					},true);
 				}
 			},
 		});
@@ -659,8 +688,8 @@ App.prototype = {
 		for(var i in [0,1,2,3,4,5,6,7,1,2,3,4,5,6,7,8]){
 			prizeList += ''
 			+ 	'<li class="prize-list-item" >'
-			+ 		'<div class="prize-list-name" >'+i+'瓦的福克斯的风景</div>'
-			+		'<div class="prize-list-prize" >9249234'+i+'</div>'
+			+ 		'<div class="prize-list-name" >第'+i+'个朋友</div>'
+			+		'<div class="prize-list-prize" >'+Math.ceil(Math.random() * 10000)+'</div>'
 			+	'</li>';
 		}
 		this.alert({
@@ -915,6 +944,48 @@ App.prototype = {
 					userNick: "哇哈哈胜过白开水1",
 					level: 22,
 					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
 				}
 			],
 			preweek: [
@@ -924,13 +995,44 @@ App.prototype = {
 					level: 22,
 					winMoney: 429329902,
 				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				},
+				{
+					avatar: './image/avatar.jpg',
+					userNick: "哇哈哈胜过白开水1",
+					level: 22,
+					winMoney: 429329902,
+				}
 			],
 		}
+	
 		for(var i in this.vmData.dataRankInfo.week){
+			this.vmData.dataRankInfo.week[i]['userNick'] = '第'+i+'个朋友';
+			this.vmData.dataRankInfo.week[i]['winMoney'] = Math.ceil(Math.random() * 10000);
+			this.vmData.dataRankInfo.week[i]['level'] = Math.ceil(Math.random() * 22);
 			this.vmData.dataRankInfo.week[i]['levelimg'] = 
 			"./image/levelicon/"+this.vmData.dataRankInfo.week[i]['level']+".png";
 		}
 		for(var i in this.vmData.dataRankInfo.preweek){
+			this.vmData.dataRankInfo.preweek[i]['userNick'] = '第'+i+'个朋友';
+			this.vmData.dataRankInfo.preweek[i]['winMoney'] = Math.ceil(Math.random() * 10000);
+			this.vmData.dataRankInfo.preweek[i]['level'] = Math.ceil(Math.random() * 22);
 			this.vmData.dataRankInfo.preweek[i]['levelimg'] = 
 			"./image/levelicon/"+this.vmData.dataRankInfo.preweek[i]['level']+".png";
 		}
@@ -942,7 +1044,7 @@ App.prototype = {
 		}
 		this.vmData.dataUserInfo = {
 			isSound: false,
-			isBanker: true,
+			isBanker: false,
 			money: 5000,
 			diffMoney: 0,
 			
@@ -971,7 +1073,7 @@ App.prototype = {
 			end: 0,
 			step: 22 * 3,
 		};
-		
+		this.vmData.dataHistoryListBtn = 0;
 		
 	}, 
 	alert: function(alertInfo, noautoclose, cloasebale){

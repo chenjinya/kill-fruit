@@ -92,12 +92,18 @@
 			<div class="banker-info" >
 				<div class="banker-title" ></div>
 				<div class="banker-status" >
+					<button class="banker-up-btn" v-bind:class="{disable: dataUserInfo.money < 500000}" v-if="!dataUserInfo.isBanker"  v-tap="handlerUpBanker()" >上庄挑战</button>
+					<button class="banker-up-btn"  v-if="dataUserInfo.isBanker"   v-tap="handlerUpBanker()" >下庄</button>
 					<div  class="banker-status-text">历练值不足50万时不能上庄</div>
-					<button class="banker-up-btn" v-if="dataUserInfo.isBanker">上庄挑战</button>
-					<button class="banker-up-btn"  v-if="!dataUserInfo.isBanker">下庄</button>
+
 				</div>
 			</div>
-			<div class="banker-list" >
+			<div class="banker-current" >
+				<div><button class="banker-list-btn" v-tap="handlerPopBankerList()">挑战者列表&gt;&gt;</button></div>
+				<div><span class="banker-list-prefix">挑战者:</span>{{dataBankerList[0].userNick}}</div>
+				<div><span class="banker-list-prefix">历练着:</span>{{dataBankerList[0].userMoney}}</div>
+			</div>
+			<!-- <div class="banker-list" >
 				<div class="banker-list-title" >当前庄家</div>
 				<i class="banker-list-slide" ></i>
 				<div class="banker-list-body" >
@@ -118,7 +124,7 @@
 					</div>
 					
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="table-section">
 			<div class="table-section-top clearfix" >
@@ -151,7 +157,7 @@
 							</div>
 						</div>
 						<div class="table-exchange" >
-							<button class="exchange-coin-btn"></button>
+							<button class="exchange-coin-btn" v-tap="handleExchange()"></button>
 						</div>
 					</div>
 					<div class="table-stage" >
