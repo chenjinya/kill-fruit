@@ -1088,7 +1088,7 @@ App.prototype = {
 		}
 		$(".alert-content-inner").css({
 			transform: 'translateY(0)'
-		})
+		});
 		this.vmData.alertInfo = alertInfo;
 		if(!noautoclose) {
 			self.alertInfoTimeout && clearTimeout(self.alertInfoTimeout);
