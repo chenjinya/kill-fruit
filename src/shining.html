@@ -47,7 +47,7 @@
 		text-align: center;
 	}
 	</style>
-	<link rel="stylesheet" type="text/css" href="./style/app.css">
+	<link rel="stylesheet" type="text/css" href="./style/shining.css">
 	<link rel="prefetch" href="./audio/win1.mp3" />  
 	<link rel="prefetch" href="./audio/win2.mp3" />  
 	<link rel="prefetch" href="./audio/lose1.mp3" />  
@@ -99,9 +99,8 @@
 				</div>
 			</div>
 			<div class="banker-current" >
-				<div><button class="banker-list-btn" v-tap="handlerPopBankerList()">挑战者列表&gt;&gt;</button></div>
-				<div><span class="banker-list-prefix">挑战者:</span>{{dataBankerList[0].userNick}}</div>
-				<div><span class="banker-list-prefix">历练着:</span>{{dataBankerList[0].userMoney}}</div>
+				<div><button class="banker-list-btn" v-tap="handlerPopBankerList()">挑战者列表&gt;</button></div>
+				<div>{{dataBankerList[0].userNick}} &nbsp;&nbsp; {{dataBankerList[0].userMoney > 10000 ? Math.floor(dataBankerList[0].userMoney/ 10000)+ "万" :dataBankerList[0].userMoney }}</div>
 			</div>
 			<!-- <div class="banker-list" >
 				<div class="banker-list-title" >当前庄家</div>
@@ -128,16 +127,18 @@
 		</div>
 		<div class="table-section">
 			<div class="table-section-top clearfix" >
-				<div class="fruit-item" v-for="n in [0,1,2,3,4,5] "  v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "  track-by="$index" >
+				<div class="fruit-item " v-for="n in [0,1,2,3,4,5] " data-fruit-id="{{dataTableFruitList[n].id}}"  v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "  track-by="$index" >
 					<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
+					<div class="fruit-item-shining-bg " ></div>
 				</div>
 				
 				
 			</div>
 			<div class="table-section-middle  clearfix" >
 				<div class="table-section-left" >
-					<div class="fruit-item" v-for="n in [21,20,19,18,17] " data-no="{{n}}" track-by="$index"   v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "  >
+					<div class="fruit-item " v-for="n in [21,20,19,18,17] "  data-fruit-id="{{dataTableFruitList[n].id}}"   track-by="$index"   v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "  >
 						<img  class="fruit-item-img"    v-bind:src="dataTableFruitList[n].img" />
+						<div class="fruit-item-shining-bg " ></div>
 					</div>
 				</div>
 				<div class="table-section-center" >
@@ -161,12 +162,12 @@
 						</div>
 					</div>
 					<div class="table-stage" >
-						<div class="table-stage-item" v-tap="handleCutFruit(item)" v-for="item in dataTableStageList">
+						<div class="table-stage-item" v-bind:class="{disable: dataGameStatus.step != 2}" v-tap="handleCutFruit(item)" v-for="item in dataTableStageList">
 							<div class="table-stage-item-icon-wrap">
 								<img class="table-stage-item-icon" v-bind:src="item.img">
 							</div>
-							<div class="table-stage-item-times" >x <span>{{item.times}}</span></div>
-							<div class="table-stage-item-num"  ><span  v-show="dataGameStatus.step != 1"  >{{item.count}}</span></div>
+							<div class="table-stage-item-times" >x<span>{{item.times}}</span></div>
+							<div class="table-stage-item-num"  ><span  >{{item.count == 0 ? '无' : item.count }}</span></div>
 							<div class="table-stage-item-tip" v-show="dataGameStatus.step ==2 && item.total == 0"  >点击切水果</div>
 							<div class="table-stage-item-tip-total" v-show="(dataGameStatus.step ==2 && item.total > 0) || dataGameStatus.step ==3" >共切{{item.total}}次</div>
 						</div>
@@ -177,15 +178,17 @@
 					</div>
 				</div>
 				<div class="table-section-right" >
-					<div class="fruit-item"  v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "    v-for="n in [6,7,8,9,10] " track-by="$index" >
+					<div class="fruit-item"  data-fruit-id="{{dataTableFruitList[n].id}}"    v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "    v-for="n in [6,7,8,9,10] " track-by="$index" >
 						<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img"/>
+						<div class="fruit-item-shining-bg " ></div>
 					</div>
 				</div>
 				
 			</div>
 			<div class="table-section-bottom  clearfix" >
-				<div class="fruit-item"   v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "    v-for="n in [16,15,14,13,12,11] " track-by="$index" >
+				<div class="fruit-item"  data-fruit-id="{{dataTableFruitList[n].id}}"     v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "    v-for="n in [16,15,14,13,12,11] " track-by="$index" >
 					<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
+					<div class="fruit-item-shining-bg " ></div>
 				</div>
 			</div>
 			
@@ -202,7 +205,6 @@
 					<img class="knife-item-img-disable" v-bind:src="item.disable" />
 					<div class="knife-item-price">{{item.money}}</div>
 				</div>
-				
 				
 			</div>
 		</div>
@@ -293,9 +295,9 @@
 			<button class="bottom-btn"  v-bind:class="{active: dataBottomActive == 3} "  v-tap="handlerBottomBtn(3)">排行榜</button>
 		</div>
 		<div class="alert-wrap"  v-show="!alertInfo.out" v-tap="handlerCloseAlert()" ></div>
-		<div  class="alert-main animated  " v-show="!alertInfo.out" v-bind:class="{ fadeInUp: !alertInfo.out, fadeOutDown: alertInfo.out}">
+		<div  class="alert-main animated  " v-show="!alertInfo.out" v-bind:class="{ fadeInUp: !alertInfo.out, fadeOutDown: alertInfo.out}" v-bind:style="alertInfo.mainStyle" >
 			<div class="alert-title" >{{alertInfo.title}}</div>
-			<div  class="alert-content" >
+			<div  class="alert-content" v-bind:style="alertInfo.contentStyle" >
 				<div touch-scroll scroll-y=1 class="alert-content-inner">{{{alertInfo.content}}}</div>
 			</div>
 		</div>
@@ -334,15 +336,9 @@
 	</div>
 	<script type="text/javascript" src="./javascript/vendor/underscore.js"></script>
 	<script type="text/javascript" src="./javascript/vendor/zepto.js"></script>
-	<script type="text/javascript" src="./javascript/vendor/zepto.detect.js"></script>
-
-	<script type="text/javascript">
-		if($.os.android){
-			$(".stage").addClass("android");
-		}
-	</script>
 	<script type="text/javascript" src="./javascript/vendor/zepto.fx.js"></script>
 	<script type="text/javascript" src="./javascript/vendor/zepto.touch.js"></script>
+	<script type="text/javascript" src="./javascript/vendor/zepto.detect.js"></script>
 	<script type="text/javascript" src="./javascript/vendor/vue.js"></script>
 
 	<script type="text/javascript" src="./javascript/app.js"></script>

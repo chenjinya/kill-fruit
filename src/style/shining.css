@@ -98,9 +98,7 @@ ul, li {
     float: left;
     position: relative; }
   .history-section .sound-section {
-    float: right;
-    z-index: 1;
-    position: relative; }
+    float: right; }
     .history-section .sound-section .sound-btn {
       background: url("../image/sound-btn.png") no-repeat center;
       background-size: contain;
@@ -180,33 +178,43 @@ ul, li {
       color: #ffbc33;
       margin-left: 10px; }
     .banker-section .banker-status .banker-up-btn {
-      font-size: 20px;
-      color: #000;
-      margin: 10px;
-      width: 96px;
-      height: 40px;
-      background: #d88656;
-      box-shadow: 0px 2px 4px 0px #4b2009, inset 0px 1px 3px 0px #865236, inset 0px 17px 8px 0px rgba(250, 200, 172, 0.5);
-      border-radius: 6px;
-      width: 96px;
-      height: 26px; }
+      font-size: 24px;
+      color: #7c4a17;
+      text-align: center;
+      margin: 4px;
+      /*width: 96px;
+			height: 40px;*/
+      /*background:#d88656;
+			box-shadow:0px 2px 4px 0px #4b2009, inset 0px 1px 3px 0px #865236, inset 0px 17px 8px 0px rgba(250,200,172,0.50);
+			border-radius:6px;*/
+      background: rgba(255, 214, 70, 0.91);
+      border: 2px solid #ffb745;
+      box-shadow: -1px 2px 4px 1px rgba(0, 0, 0, 0.5), inset 0px -15px 11px 0px #e0941d;
+      border-radius: 42px;
+      width: 144px;
+      height: 50px;
+      /*width:96px;
+			height:26px;*/ }
     .banker-section .banker-status .banker-up-btn.disable {
-      background: #eee;
+      background: rgba(200, 200, 200, 0.91);
+      border: 2px solid #eee;
+      box-shadow: -1px 2px 4px 1px rgba(0, 0, 0, 0.5), inset 0px -15px 11px 0px #eee;
       box-shadow: none;
       color: #999; }
-  .banker-section .banker-current div {
-    font-size: 18px;
-    margin: 5px;
-    color: #FFF; }
-  .banker-section .banker-current .banker-list-prefix {
-    color: #fbc09b; }
-  .banker-section .banker-current .banker-list-btn {
-    text-align: left;
-    font-size: 18px;
-    background: none;
-    font-weight: bold;
-    color: #fbc09b;
-    padding: 6px 0 0 0; }
+  .banker-section .banker-current {
+    text-align: right;
+    padding-right: 20px; }
+    .banker-section .banker-current div {
+      font-size: 20px;
+      margin: 5px;
+      color: #FFF; }
+    .banker-section .banker-current .banker-list-btn {
+      text-align: center;
+      background: none;
+      font-weight: bold;
+      font-size: 24px;
+      color: #ffffff;
+      margin: 10px 5px 5px 0; }
   .banker-section .banker-list {
     width: 345px;
     float: right; }
@@ -262,8 +270,6 @@ ul, li {
     margin: 14px 0 0 13px;
     display: block;
     position: relative;
-    background: url("../image/fruit-bg.png") no-repeat center;
-    background-size: contain;
     float: left;
     text-align: center;
     vertical-align: middle; }
@@ -276,13 +282,66 @@ ul, li {
       left: 0;
       right: 0;
       bottom: 0;
-      margin: auto; }
-  .table-section .fruit-item.active {
-    background: url("../image/fruit-active-bg.png") no-repeat center;
+      margin: auto;
+      z-index: 1; }
+  .table-section .fruit-item-shining-bg {
+    width: 160px;
+    position: absolute;
+    height: 160px;
+    left: -32px;
+    right: 0;
+    top: -7px;
+    bottom: 0;
+    margin: auto;
+    z-index: 0; }
+  .table-section .fruit-item[data-fruit-id="1"] {
+    background: url("../image/fruit/fruit-bg-1.png") no-repeat center;
     background-size: contain; }
-  .table-section .fruit-item.active.shining {
-    -webkit-animation: shining-prize-bg 1s infinite;
-            animation: shining-prize-bg 1s infinite; }
+  .table-section .fruit-item[data-fruit-id="2"] {
+    background: url("../image/fruit/fruit-bg-2.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="3"] {
+    background: url("../image/fruit/fruit-bg-3.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="4"] {
+    background: url("../image/fruit/fruit-bg-4.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="5"] {
+    background: url("../image/fruit/fruit-bg-5.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="6"] {
+    background: url("../image/fruit/fruit-bg-6.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="7"] {
+    background: url("../image/fruit/fruit-bg-7.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="8"] {
+    background: url("../image/fruit/fruit-bg-8.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="1"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-1-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="2"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-2-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="3"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-3-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="4"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-4-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="5"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-5-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="6"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-6-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="7"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-7-active.png") no-repeat center;
+    background-size: contain; }
+  .table-section .fruit-item[data-fruit-id="8"].active .fruit-item-shining-bg {
+    background: url("../image/fruit/fruit-bg-8-active.png") no-repeat center;
+    background-size: contain; }
   .table-section-left {
     width: 126px;
     float: left; }
@@ -297,9 +356,14 @@ ul, li {
     .table-section-center .table-time {
       font-size: 34px;
       color: #FFF;
+      font-weight: bold;
       text-align: center;
       margin-top: 30px;
-      margin-bottom: 20px; }
+      margin-bottom: 20px;
+      background-image: -webkit-linear-gradient(top, #E7CB6A 0%, #FDAE08 58%);
+      background-image: linear-gradient(-180deg, #E7CB6A 0%, #FDAE08 58%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; }
     .table-section-center .table-info .table-user-info {
       float: left;
       margin-left: 12px;
@@ -307,7 +371,10 @@ ul, li {
       .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2 {
         font-size: 22px;
         color: #FFF;
-        width: 250px; }
+        width: 250px;
+        margin-top: 5px; }
+      .table-section-center .table-info .table-user-info-2 {
+        margin-top: 5px; }
     .table-section-center .table-info .table-exchange {
       float: left; }
       .table-section-center .table-info .table-exchange .exchange-coin-btn {
@@ -319,16 +386,28 @@ ul, li {
       margin-left: 8px;
       margin-top: 20px; }
       .table-section-center .table-stage-item:active {
-        background: #efa366; }
+        background: url("../image/table-stage-item-active.png") no-repeat center;
+        background-size: contain; }
+      .table-section-center .table-stage-item.disable {
+        background: url("../image/table-stage-item-disable.png") no-repeat center;
+        background-size: contain; }
+        .table-section-center .table-stage-item.disable .table-stage-item-times {
+          color: #000; }
+        .table-section-center .table-stage-item.disable .table-stage-item-num {
+          color: #000;
+          background: rgba(70, 70, 70, 0.8);
+          border-radius: 85px; }
       .table-section-center .table-stage-item {
         width: 204px;
         height: 82px;
         float: left;
         position: relative;
         margin: 4px;
-        background: #f8be8f;
-        border: 2px solid #958e89;
-        border-radius: 10px; }
+        background: url("../image/table-stage-item.png") no-repeat center;
+        background-size: contain;
+        /*background: #f8be8f;
+	    		border: 2px solid #958e89;
+	    		border-radius: 10px;*/ }
         .table-section-center .table-stage-item-icon-wrap {
           width: 55px;
           height: 55px;
@@ -345,20 +424,19 @@ ul, li {
           margin: auto; }
         .table-section-center .table-stage-item-times {
           position: absolute;
-          top: 6px;
-          left: 65px;
-          font-size: 18px; }
-          .table-section-center .table-stage-item-times span {
-            color: #ff0a35; }
+          top: 14px;
+          left: 70px;
+          font-size: 22px;
+          color: #ff0a35; }
         .table-section-center .table-stage-item-num {
           font-size: 18px;
           position: absolute;
           top: 17px;
           right: 11px;
           text-align: center;
-          color: #ff0a35;
+          color: #fff;
           opacity: 0.72;
-          background: #f9f5f0;
+          background: #ff0a35;
           border-radius: 85px;
           width: 83px;
           height: 22px;

@@ -138,30 +138,35 @@ App.prototype = {
 			id:1,
 			money: 500,
 			img: './image/knife-1.png',
+			disable: './image/knife-1-disable.png',
 			active: false,
 		},
 		2: {
 			id:2,
 			money: 1000,
 			img: './image/knife-2.png',
+			disable: './image/knife-2-disable.png',
 			active: false,
 		},
 		3: {
 			id:3,
 			money: 5000,
 			img: './image/knife-3.png',
+			disable: './image/knife-3-disable.png',
 			active: false,
 		},
 		4: {
 			id:4,
 			money: 10000,
 			img: './image/knife-4.png',
+			disable: './image/knife-4-disable.png',
 			active: false,
 		},
 		5: {
 			id:5,
 			money: 50000,
 			img: './image/knife-5.png',
+			disable: './image/knife-5-disable.png',
 			active: false,
 		},
 	},
@@ -379,6 +384,12 @@ App.prototype = {
 						self.alert({
 							title: '提示',
 							content: '<p>请先选择刀具后切水果</p>',
+							mainStyle: {
+								height:"230px",
+							},
+							contentStyle: {
+								height:"110px",
+							}
 						});
 						return false;
 					}
@@ -387,6 +398,12 @@ App.prototype = {
 						self.alert({
 							title: '提示',
 							content: '<p style="margin:40px auto;">余额不足</p>',
+							mainStyle: {
+								height:"230px",
+							},
+							contentStyle: {
+								height:"110px",
+							}
 						});
 						self.vmData.currentKnife = 0;
 
@@ -445,6 +462,12 @@ App.prototype = {
 						self.alert({
 							title: '提示',
 							content: '<p>余额不足</p>',
+							mainStyle: {
+								height:"230px",
+							},
+							contentStyle: {
+								height:"110px",
+							}
 						});
 						//self.vmData.currentKnife = 0;
 						return false;
@@ -671,7 +694,7 @@ App.prototype = {
 		//this.vmData.dataUserInfo.money -= costMoney;
 		this.vmData.dataUserInfo.diffMoney -= costMoney;
 
-		this.vmData.lastCut = Object.assign({}, this.vmData.currentCut);
+		this.vmData.lastCut = this.vmData.currentCut;
 		this.vmData.currentCut = {};
 
 
@@ -816,7 +839,7 @@ App.prototype = {
 		this.vmData.dataTableFruitList = [];
 		for(var i in this.fruitList){
 			var index = this.fruitList[i];
-			this.vmData.dataTableFruitList.push(Object.assign({}, fruitData[index]));
+			this.vmData.dataTableFruitList.push(fruitData[index]);
 		}
 
 		this.vmData.dataTableFruitList[2].active = true;
@@ -1069,6 +1092,7 @@ App.prototype = {
 			title: '',
 			content: '',
 			out: true,
+			style:{},
 		};
 		this.vmData.dataLoopFruit = {
 			id: 0,
@@ -1085,6 +1109,9 @@ App.prototype = {
 		alertInfo.notClose = cloasebale;
 		if(!alertInfo.title){
 			alertInfo.title = "提示";
+		}
+		if(!alertInfo.style){
+			alertInfo.style = {};
 		}
 		$(".alert-content-inner").css({
 			transform: 'translateY(0)'
