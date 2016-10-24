@@ -258,16 +258,34 @@ ul, li {
         white-space: nowrap;
         line-height: 18px; }
 
+@-webkit-keyframes table-bg-shining {
+  0% {
+    background-image: url("../image/table-bg-1.png");
+    background-size: contain; }
+  50% {
+    background-image: url("../image/table-bg-2.png");
+    background-size: contain; } }
+
+@keyframes table-bg-shining {
+  0% {
+    background-image: url("../image/table-bg-1.png");
+    background-size: contain; }
+  50% {
+    background-image: url("../image/table-bg-2.png");
+    background-size: contain; } }
+
 .table-section {
   width: 690px;
   height: 810px;
   margin: 0 auto;
-  background: url("../image/table-bg.png") no-repeat center;
-  background-size: contain; }
+  background: url("../image/table-bg-1.png") no-repeat;
+  background-size: contain;
+  -webkit-animation: table-bg-shining 1s infinite;
+          animation: table-bg-shining 1s infinite; }
   .table-section .fruit-item {
     width: 100px;
     height: 100px;
-    margin: 14px 0 0 13px;
+    margin: 12px 0 0 13px;
     display: block;
     position: relative;
     float: left;
@@ -351,7 +369,7 @@ ul, li {
   .table-section-center {
     width: 438px;
     float: left;
-    height: 556px;
+    height: 526px;
     margin-top: 14px; }
     .table-section-center .table-time {
       font-size: 34px;

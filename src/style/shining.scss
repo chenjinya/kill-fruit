@@ -326,17 +326,29 @@ ul,li{
 	
 	
 }
+@keyframes table-bg-shining
+{
+	0%{
+		background-image: url('../image/table-bg-1.png');
+		background-size: contain;
+	}
+	50%{
+		background-image: url('../image/table-bg-2.png');
+		background-size: contain;
+	}
+}
 .table-section{
 	width: 690px;
 	height: 810px;
 	margin: 0 auto;
-	@include backgroundContain('../image/table-bg.png');
-
-
+	//@include backgroundContain('../image/table-bg.png');
+	background: url('../image/table-bg-1.png') no-repeat ;
+	background-size: contain;
+	animation: table-bg-shining 1s infinite;
 	.fruit-item{
 		width: 100px;
 	    height: 100px;
-	    margin: 14px 0 0 13px;
+	    margin: 12px 0 0 13px;
 	    display: block;
 	    position: relative;
 	    
@@ -455,7 +467,7 @@ ul,li{
 	&-center{
 		width: 438px;
 	    float: left;
-	    height: 556px;
+	    height: 526px;
 	    margin-top: 14px;
 
 	    .table-time{
