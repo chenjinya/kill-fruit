@@ -529,7 +529,7 @@ ul,li{
 	    	}
 	    }
 	    .table-stage{
-	    	margin-left: 8px;
+	    	margin-left: 12px;
 	    	margin-top: 10px;
 	    	&-item:active {
 	    		//background: #efa366;
@@ -546,10 +546,9 @@ ul,li{
 					border-radius:85px;
 	    		}
 	    	}
-
 	    	&-item{
-	    		width: 204px;
-	    		height: 82px;
+	    		width: 200px;
+	    		height: 80px;
 	    		float: left;
 	    		position: relative;
 	    		margin: 4px;
