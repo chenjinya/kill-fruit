@@ -13,6 +13,7 @@ $width: 640px;
 
 }
 
+
 @keyframes shining-prize-bg {
 	0% {
 		@include backgroundContain('../image/fruit-active-bg.png');
@@ -29,7 +30,7 @@ body{
  	margin: 0;
  	font-size: 12px;
  	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
- 	background: url(../image/background.png)  ;
+ 	background: url(../image/background.png) #824e37 ;
     text-size-adjust: 100%;
     tap-highlight-color: transparent;
     -webkit-tap-highlight-color: transparent;
@@ -226,7 +227,7 @@ ul,li{
 			border:2px solid #ffb745;
 			box-shadow:-1px 2px 4px 1px rgba(0,0,0,0.50), inset 0px -15px 11px 0px #e0941d;
 			border-radius:42px;
-			width:144px;
+			width:150px;
 			height:50px;
 			/*width:96px;
 			height:26px;*/
@@ -329,22 +330,38 @@ ul,li{
 @keyframes table-bg-shining
 {
 	0%{
-		background-image: url('../image/table-bg-1.png');
-		background-size: contain;
+		opacity: 0;
+	}
+	49%{
+		opacity: 0;
 	}
 	50%{
-		background-image: url('../image/table-bg-2.png');
-		background-size: contain;
+		opacity: 1;
+	}
+	100%{
+		opacity: 1;
 	}
 }
+.table-section-bg{
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	@include backgroundContain('../image/table-bg-2.png');
+	background-position: top;
+	animation: table-bg-shining 1s infinite;
+}
 .table-section{
+	position: relative;
 	width: 690px;
 	height: 810px;
 	margin: 0 auto;
 	//@include backgroundContain('../image/table-bg.png');
 	background: url('../image/table-bg-1.png') no-repeat ;
 	background-size: contain;
-	animation: table-bg-shining 1s infinite;
+	
 	.fruit-item{
 		width: 100px;
 	    height: 100px;
@@ -476,15 +493,19 @@ ul,li{
 	    	font-weight: bold;
 	    	text-align: center;
 	    	margin-top:30px;
-	    	margin-bottom: 20px;
+	    	margin-bottom: 15px;
 	    	background-image: linear-gradient(-180deg, #E7CB6A 0%, #FDAE08 58%);;
 		     -webkit-background-clip: text;
 		     -webkit-text-fill-color: transparent;
 	    }
 	    .table-info{
+
+   			margin: 0 auto;
+    		width: 400px;
+
 	    	.table-user-info{
+
 	    		float: left;
-	    		margin-left: 12px;
 	    		width: 250px;
 	    		&-1, &-2{
 	    			font-size: 22px;
@@ -509,7 +530,7 @@ ul,li{
 	    }
 	    .table-stage{
 	    	margin-left: 8px;
-	    	margin-top:20px;
+	    	margin-top: 10px;
 	    	&-item:active {
 	    		//background: #efa366;
 	    		@include backgroundContain('../image/table-stage-item-active.png');
@@ -685,7 +706,7 @@ ul,li{
 	margin: 0 auto;
 	margin-top: 16px;
 	position: relative;
-	z-index: 2;
+	z-index: 6;
 	.bottom-btn{
 		position: relative;
 		width: 220px;
@@ -822,7 +843,7 @@ ul,li{
     left: 0;
     right: 0;
     margin: auto;
-    z-index: 1;
+    z-index: 5;
 }
 .bottom-alert-content {
 	background:#ffe3c5;
@@ -952,7 +973,37 @@ ul,li{
 	text-align: left;
 	color: #ab5d30;
 }
-
+@keyframes loading-icon-circle
+{
+from { transform: rotateZ(0); }
+to { transform: rotateZ(360deg); }
+}
+.server-busy{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255,255,255,.5);
+	z-index: 101;
+	.server-busy-tip{
+		width: 100%;
+		height:100px;
+		position: absolute;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    top: 0;
+	    margin: auto;
+	    text-align: center;
+	    vertical-align: middle;
+	    font-size: 1.5em;
+	}
+	.loading-icon{
+		width: 18%;
+		animation: loading-icon-circle 5s linear infinite;
+	}
+}
 .history-list{
 	transform: translateX(0px);
 }
@@ -964,22 +1015,32 @@ ul,li{
 	padding-bottom: 100px;
 }
 
-.android .knife-section{
+.android {
+	
+	.table-section-center .table-time{
+		background: none;
+/*	     -webkit-background-clip: none;
+*/	     -webkit-text-fill-color: #FFF;
+	}
+	.knife-section{
 
-	.disable{
-		filter:none;
-		@include backgroundContain('../image/knife-bg-disable.png');
-		.knife-item-price{
-			color: #999;
-			-webkit-text-stroke: 1px #5a5a5a;
-		}
-		.knife-item-img{
-			display: none;
-		}
-		.knife-item-img-disable{
-			display: inline-block;
+		.disable{
+			filter:none;
+			@include backgroundContain('../image/knife-bg-disable.png');
+			.knife-item-price{
+				color: #999;
+				-webkit-text-stroke: 1px #5a5a5a;
+			}
+			.knife-item-img{
+				display: none;
+			}
+			.knife-item-img-disable{
+				display: inline-block;
+			}
 		}
 	}
 
 }
 
+
+	

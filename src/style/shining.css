@@ -26,7 +26,7 @@ body {
   margin: 0;
   font-size: 12px;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  background: url(../image/background.png);
+  background: url(../image/background.png) #824e37;
   -webkit-text-size-adjust: 100%;
           text-size-adjust: 100%;
   tap-highlight-color: transparent;
@@ -191,7 +191,7 @@ ul, li {
       border: 2px solid #ffb745;
       box-shadow: -1px 2px 4px 1px rgba(0, 0, 0, 0.5), inset 0px -15px 11px 0px #e0941d;
       border-radius: 42px;
-      width: 144px;
+      width: 150px;
       height: 50px;
       /*width:96px;
 			height:26px;*/ }
@@ -260,28 +260,44 @@ ul, li {
 
 @-webkit-keyframes table-bg-shining {
   0% {
-    background-image: url("../image/table-bg-1.png");
-    background-size: contain; }
+    opacity: 0; }
+  49% {
+    opacity: 0; }
   50% {
-    background-image: url("../image/table-bg-2.png");
-    background-size: contain; } }
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
 
 @keyframes table-bg-shining {
   0% {
-    background-image: url("../image/table-bg-1.png");
-    background-size: contain; }
+    opacity: 0; }
+  49% {
+    opacity: 0; }
   50% {
-    background-image: url("../image/table-bg-2.png");
-    background-size: contain; } }
+    opacity: 1; }
+  100% {
+    opacity: 1; } }
+
+.table-section-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: url("../image/table-bg-2.png") no-repeat center;
+  background-size: contain;
+  background-position: top;
+  -webkit-animation: table-bg-shining 1s infinite;
+          animation: table-bg-shining 1s infinite; }
 
 .table-section {
+  position: relative;
   width: 690px;
   height: 810px;
   margin: 0 auto;
   background: url("../image/table-bg-1.png") no-repeat;
-  background-size: contain;
-  -webkit-animation: table-bg-shining 1s infinite;
-          animation: table-bg-shining 1s infinite; }
+  background-size: contain; }
   .table-section .fruit-item {
     width: 100px;
     height: 100px;
@@ -377,32 +393,34 @@ ul, li {
       font-weight: bold;
       text-align: center;
       margin-top: 30px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       background-image: -webkit-linear-gradient(top, #E7CB6A 0%, #FDAE08 58%);
       background-image: linear-gradient(-180deg, #E7CB6A 0%, #FDAE08 58%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent; }
-    .table-section-center .table-info .table-user-info {
-      float: left;
-      margin-left: 12px;
-      width: 250px; }
-      .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2 {
-        font-size: 22px;
-        color: #FFF;
-        width: 250px;
-        margin-top: 5px; }
-      .table-section-center .table-info .table-user-info-2 {
-        margin-top: 5px; }
-    .table-section-center .table-info .table-exchange {
-      float: left; }
-      .table-section-center .table-info .table-exchange .exchange-coin-btn {
-        width: 148px;
-        height: 63px;
-        background: url("../image/exchange-coin-btn.png") no-repeat center;
-        background-size: contain; }
+    .table-section-center .table-info {
+      margin: 0 auto;
+      width: 400px; }
+      .table-section-center .table-info .table-user-info {
+        float: left;
+        width: 250px; }
+        .table-section-center .table-info .table-user-info-1, .table-section-center .table-info .table-user-info-2 {
+          font-size: 22px;
+          color: #FFF;
+          width: 250px;
+          margin-top: 5px; }
+        .table-section-center .table-info .table-user-info-2 {
+          margin-top: 5px; }
+      .table-section-center .table-info .table-exchange {
+        float: left; }
+        .table-section-center .table-info .table-exchange .exchange-coin-btn {
+          width: 148px;
+          height: 63px;
+          background: url("../image/exchange-coin-btn.png") no-repeat center;
+          background-size: contain; }
     .table-section-center .table-stage {
       margin-left: 8px;
-      margin-top: 20px; }
+      margin-top: 10px; }
       .table-section-center .table-stage-item:active {
         background: url("../image/table-stage-item-active.png") no-repeat center;
         background-size: contain; }
@@ -545,7 +563,7 @@ ul, li {
   margin: 0 auto;
   margin-top: 16px;
   position: relative;
-  z-index: 2; }
+  z-index: 6; }
   .bottom-section .bottom-btn {
     position: relative;
     width: 220px;
@@ -663,7 +681,7 @@ ul, li {
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 1; }
+  z-index: 5; }
 
 .bottom-alert-content {
   background: #ffe3c5;
@@ -767,6 +785,47 @@ ul, li {
   text-align: left;
   color: #ab5d30; }
 
+@-webkit-keyframes loading-icon-circle {
+  from {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0); }
+  to {
+    -webkit-transform: rotateZ(360deg);
+            transform: rotateZ(360deg); } }
+
+@keyframes loading-icon-circle {
+  from {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0); }
+  to {
+    -webkit-transform: rotateZ(360deg);
+            transform: rotateZ(360deg); } }
+
+.server-busy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 101; }
+  .server-busy .server-busy-tip {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.5em; }
+  .server-busy .loading-icon {
+    width: 18%;
+    -webkit-animation: loading-icon-circle 5s linear infinite;
+            animation: loading-icon-circle 5s linear infinite; }
+
 .history-list {
   -webkit-transform: translateX(0px);
           transform: translateX(0px); }
@@ -777,6 +836,12 @@ ul, li {
 
 [scroll-y] {
   padding-bottom: 100px; }
+
+.android .table-section-center .table-time {
+  background: none;
+  /*	     -webkit-background-clip: none;
+*/
+  -webkit-text-fill-color: #FFF; }
 
 .android .knife-section .disable {
   -webkit-filter: none;

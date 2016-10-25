@@ -126,6 +126,7 @@
 			</div> -->
 		</div>
 		<div class="table-section">
+			<div class="table-section-bg"></div>
 			<div class="table-section-top clearfix" >
 				<div class="fruit-item " v-for="n in [0,1,2,3,4,5] " data-fruit-id="{{dataTableFruitList[n].id}}"  v-bind:class="{active : n == dataLoopFruit.no, shining: n == dataLoopFruit.no && dataGameStatus.step == 3 } "  track-by="$index" >
 					<img  class="fruit-item-img"  v-bind:src="dataTableFruitList[n].img" />
